@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { getProjectBySlug, getProjects } from '@/lib/content'
 import { pageMetadata } from '@/lib/site'
 import { Markdown } from '@/components/Markdown'
+import { CoverImage } from '@/components/CoverImage'
 
 export const dynamicParams = false
 
@@ -39,6 +40,8 @@ export default async function ProjectPage({ params }: Props) {
       <header className="post-header container">
         <h1 className="post-title">{project.title}</h1>
       </header>
+
+      {project.featuredImage && <CoverImage src={project.featuredImage} />}
 
       <div className="post-content" style={{ paddingTop: 0 }}>
         <Markdown content={project.content} />

@@ -9,3 +9,8 @@ export function formatDate(date: string, month: 'long' | 'short' = 'long', withD
     timeZone: 'UTC',
   })
 }
+
+export function readingMinutes(markdown: string): number {
+  const words = markdown.split(/\s+/).filter(Boolean).length
+  return Math.max(1, Math.round(words / 230))
+}

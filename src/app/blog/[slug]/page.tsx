@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getPostBySlug, getPosts } from '@/lib/content'
-import { formatDate } from '@/lib/format'
+import { formatDate, readingMinutes } from '@/lib/format'
 import { pageMetadata } from '@/lib/site'
 import { Markdown } from '@/components/Markdown'
 import { BlogPostJsonLd } from '@/components/JsonLd'
+import { CoverImage } from '@/components/CoverImage'
 
 export const dynamicParams = false
 
@@ -49,17 +50,18 @@ export default async function PostPage({ params }: Props) {
 
       <header className="post-header container">
         <h1 className="post-title">{post.title}</h1>
+        <p className="post-meta">
+          <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
+          <span aria-hidden="true">&middot;</span>
+          <span>{readingMinutes(post.content)} min read</span>
+        </p>
       </header>
+
+      {post.featuredImage && <CoverImage src={post.featuredImage} />}
 
       <div className="post-content" style={{ paddingTop: 0 }}>
         <Markdown content={post.content} />
       </div>
-
-      <footer className="post-footer">
-        <div className="post-footer-meta">
-          <time dateTime={post.publishedAt}>Published {formatDate(post.publishedAt)}</time>
-        </div>
-      </footer>
     </article>
   )
 }
