@@ -74,41 +74,58 @@ export default function AboutPage() {
             <h2 className="section-title" style={{ marginBottom: '1.5rem' }}>Skills & Technologies</h2>
             <div style={{ display: 'grid', gap: '1.5rem', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
               <div>
-                <h3 style={{ fontSize: '1rem', fontWeight: '600', marginBottom: '0.75rem', color: 'var(--color-text-secondary)' }}>Languages</h3>
+                <h3 style={{ fontSize: '1rem', fontWeight: '600', marginBottom: '0.75rem', color: 'var(--color-text-secondary)' }}>Detection & Response</h3>
                 <div className="tags">
-                  <span className="tag">Python</span>
-                  <span className="tag">JavaScript</span>
-                  <span className="tag">Go</span>
-                  <span className="tag">C</span>
-                  <span className="tag">Bash</span>
+                  <span className="tag">Detection Engineering</span>
+                  <span className="tag">Threat Hunting</span>
+                  <span className="tag">Threat Detection</span>
+                  <span className="tag">Incident Response</span>
+                  <span className="tag">SIEM</span>
+                  <span className="tag">Malware Analysis</span>
                 </div>
               </div>
               <div>
                 <h3 style={{ fontSize: '1rem', fontWeight: '600', marginBottom: '0.75rem', color: 'var(--color-text-secondary)' }}>Security</h3>
                 <div className="tags">
-                  <span className="tag">SIEM/SOAR</span>
-                  <span className="tag">Threat Detection</span>
-                  <span className="tag">Incident Response</span>
+                  <span className="tag">Cloud Security</span>
+                  <span className="tag">Zero Trust Architecture</span>
                   <span className="tag">Penetration Testing</span>
+                  <span className="tag">Active Directory</span>
+                  <span className="tag">Secrets Management</span>
+                  <span className="tag">HashiCorp Vault</span>
                 </div>
               </div>
               <div>
-                <h3 style={{ fontSize: '1rem', fontWeight: '600', marginBottom: '0.75rem', color: 'var(--color-text-secondary)' }}>Infrastructure</h3>
+                <h3 style={{ fontSize: '1rem', fontWeight: '600', marginBottom: '0.75rem', color: 'var(--color-text-secondary)' }}>Languages</h3>
                 <div className="tags">
+                  <span className="tag">Python</span>
+                  <span className="tag">Go</span>
+                  <span className="tag">TypeScript</span>
+                  <span className="tag">Bash</span>
+                  <span className="tag">PowerShell</span>
+                </div>
+              </div>
+              <div>
+                <h3 style={{ fontSize: '1rem', fontWeight: '600', marginBottom: '0.75rem', color: 'var(--color-text-secondary)' }}>Infrastructure & Cloud</h3>
+                <div className="tags">
+                  <span className="tag">AWS</span>
                   <span className="tag">Terraform</span>
                   <span className="tag">Ansible</span>
-                  <span className="tag">Proxmox</span>
                   <span className="tag">Docker</span>
                   <span className="tag">Kubernetes</span>
+                  <span className="tag">Proxmox</span>
+                  <span className="tag">Linux</span>
                 </div>
               </div>
               <div>
-                <h3 style={{ fontSize: '1rem', fontWeight: '600', marginBottom: '0.75rem', color: 'var(--color-text-secondary)' }}>CI/CD & Tools</h3>
+                <h3 style={{ fontSize: '1rem', fontWeight: '600', marginBottom: '0.75rem', color: 'var(--color-text-secondary)' }}>AI & Automation</h3>
                 <div className="tags">
+                  <span className="tag">Security Automation</span>
+                  <span className="tag">AI Agents</span>
+                  <span className="tag">LLMs</span>
+                  <span className="tag">MCP</span>
                   <span className="tag">GitLab CI/CD</span>
-                  <span className="tag">Git</span>
-                  <span className="tag">Linux</span>
-                  <span className="tag">AWS</span>
+                  <span className="tag">ServiceNow</span>
                 </div>
               </div>
             </div>
