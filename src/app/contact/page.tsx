@@ -1,5 +1,6 @@
 import { GitHubIcon, LinkedInIcon, MediumIcon, EmailIcon } from '@/components/Icons'
 import { pageMetadata } from '@/lib/site'
+import { PageHero } from '@/components/PageHero'
 
 export const metadata = pageMetadata({
   title: 'Contact',
@@ -10,16 +11,11 @@ export const metadata = pageMetadata({
 export default function ContactPage() {
   return (
     <>
-      <section className="hero hero-page" style={{
-        backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(/images/contact-hero.jpg)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}>
-        <div className="container">
-          <h1 style={{ color: '#fff' }}>Get in Touch</h1>
-          <p style={{ color: 'rgba(255, 255, 255, 0.9)' }}>Have a question or want to work together? I&apos;d love to hear from you.</p>
-        </div>
-      </section>
+      <PageHero
+        title="Get in Touch"
+        subtitle="Have a question or want to work together? I'd love to hear from you."
+        image="/images/contact-hero.jpg"
+      />
 
       <section className="section">
         <div className="container" style={{ maxWidth: '700px' }}>

@@ -3,6 +3,7 @@ import { getExperience } from '@/lib/content'
 import { formatDate as formatFullDate } from '@/lib/format'
 import { PersonJsonLd } from '@/components/JsonLd'
 import { pageMetadata } from '@/lib/site'
+import { PageHero } from '@/components/PageHero'
 
 export const metadata = pageMetadata({
   title: 'About',
@@ -26,16 +27,11 @@ export default function AboutPage() {
   return (
     <>
       <PersonJsonLd />
-      <section className="hero hero-page" style={{
-        backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(/images/about-hero.jpg)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}>
-        <div className="container">
-          <h1 style={{ color: '#fff' }}>About Me</h1>
-          <p style={{ color: 'rgba(255, 255, 255, 0.9)' }}>Security Engineer, Infrastructure Enthusiast, Home Lab Champion</p>
-        </div>
-      </section>
+      <PageHero
+        title="About Me"
+        subtitle="Security Engineer, Infrastructure Enthusiast, Home Lab Champion"
+        image="/images/about-hero.jpg"
+      />
 
       <section className="section">
         <div className="container" style={{ maxWidth: '800px' }}>

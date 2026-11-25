@@ -1,6 +1,7 @@
 import { getProjects } from '@/lib/content'
 import { ProjectCards } from '@/components/ProjectCards'
 import { pageMetadata } from '@/lib/site'
+import { PageHero } from '@/components/PageHero'
 
 export const metadata = pageMetadata({
   title: 'Projects',
@@ -15,16 +16,11 @@ export default function ProjectsPage() {
 
   return (
     <>
-      <section className="hero hero-page" style={{
-        backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(/images/projects-hero.jpg)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}>
-        <div className="container">
-          <h1 style={{ color: '#fff' }}>Projects</h1>
-          <p style={{ color: 'rgba(255, 255, 255, 0.9)' }}>Security tooling and infrastructure I build and maintain.</p>
-        </div>
-      </section>
+      <PageHero
+        title="Projects"
+        subtitle="Security tooling and infrastructure I build and maintain."
+        image="/images/projects-hero.jpg"
+      />
 
       <section className="section">
         <div className="container">

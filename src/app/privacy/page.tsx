@@ -1,4 +1,5 @@
 import { pageMetadata } from '@/lib/site'
+import { PageHero } from '@/components/PageHero'
 
 export const metadata = pageMetadata({
   title: 'Privacy Policy',
@@ -9,14 +10,10 @@ export const metadata = pageMetadata({
 export default function PrivacyPage() {
   return (
     <>
-      <section className="hero hero-page" style={{
-        background: 'linear-gradient(135deg, #2563eb 0%, #7c3aed 100%)',
-      }}>
-        <div className="container">
-          <h1 style={{ color: '#fff' }}>Privacy Policy</h1>
-          <p style={{ color: 'rgba(255, 255, 255, 0.9)' }}>Last updated: November 25, 2026</p>
-        </div>
-      </section>
+      <PageHero
+        title="Privacy Policy"
+        subtitle="Last updated: November 25, 2026"
+      />
 
       <section className="section">
         <div className="container" style={{ maxWidth: '800px' }}>
