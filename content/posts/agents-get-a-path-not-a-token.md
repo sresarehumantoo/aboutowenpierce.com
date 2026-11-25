@@ -3,6 +3,7 @@ title: "Agents Get a Path, Not a Token"
 excerpt: "How I stopped handing AI agents admin Vault tokens: a read-only standing identity, a default-deny allow-list of write scopes, and 20-minute tokens that agents only ever see as a file path."
 publishedAt: 2026-11-24
 categories: ["Security", "AI Agents", "Vault"]
+project: vault-scope
 featuredImage: /images/covers/agents-get-a-path-not-a-token.png
 draft: false
 ---

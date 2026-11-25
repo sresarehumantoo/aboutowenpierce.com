@@ -2054,6 +2054,8 @@ a.card {
   border-radius: 0.75rem;
   border: 1px solid var(--color-border);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+  max-height: 80vh;
+  object-fit: contain;
 }
 
 .project-writing {
