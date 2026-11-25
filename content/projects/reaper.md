@@ -24,10 +24,15 @@ Requires Node.js 22.18+ (or 24.11+), or Docker on its own.
 ```sh
 npm install -g @sresarehumantoo/reaper
 
-reaper suspicious.html --triage                       # deobfuscate, findings, IOCs, verdict
+# deobfuscate, findings, IOCs and a verdict in one report
+reaper suspicious.html --triage
 reaper suspicious.js --triage --format json --defang --output triage.json
-reaper obfuscated.js --rewrite out/                   # write readable .deobf.js files
-reaper sample.js --iocs --defang                      # indicators only
+
+# write readable .deobf.js files
+reaper obfuscated.js --rewrite out/
+
+# indicators only, or SARIF for code scanning
+reaper sample.js --iocs --defang
 reaper "src/**/*.js" --format sarif --output reaper.sarif
 ```
 

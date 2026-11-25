@@ -57,23 +57,25 @@ export default async function ProjectPage({ params }: Props) {
             {project.privateSource && <span>Source: private</span>}
           </p>
         )}
-        <div className="project-actions">
-          {project.links.github && (
-            <a href={project.links.github} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-              View on GitHub
-            </a>
-          )}
-          {project.links.live && (
-            <a href={project.links.live} target="_blank" rel="noopener noreferrer" className="btn btn-outline">
-              View Live
-            </a>
-          )}
-          {project.links.other?.map((link) => (
-            <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" className="btn btn-outline">
-              {link.label}
-            </a>
-          ))}
-        </div>
+        {(project.links.github || project.links.live || project.links.other) && (
+          <div className="project-actions">
+            {project.links.github && (
+              <a href={project.links.github} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                View on GitHub
+              </a>
+            )}
+            {project.links.live && (
+              <a href={project.links.live} target="_blank" rel="noopener noreferrer" className="btn btn-outline">
+                View Live
+              </a>
+            )}
+            {project.links.other?.map((link) => (
+              <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" className="btn btn-outline">
+                {link.label}
+              </a>
+            ))}
+          </div>
+        )}
         {project.techStack.length > 0 && (
           <div className="tags project-tags">
             {project.techStack.map((tech) => (
