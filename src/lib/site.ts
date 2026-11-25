@@ -18,17 +18,18 @@ type PageMetadata = {
   path: string
   image?: string
   publishedTime?: string
+  canonical?: string
 }
 
 // A page's openGraph replaces the layout's wholesale rather than merging, so
 // every page gets the full set here, with its own URL as og:url and canonical.
-export function pageMetadata({ title, description, path, image, publishedTime }: PageMetadata): Metadata {
+export function pageMetadata({ title, description, path, image, publishedTime, canonical }: PageMetadata): Metadata {
   const images = image ? [image] : [SOCIAL_IMAGE]
   const shared = { title, description, url: path, siteName: SITE_NAME, locale: 'en_US', images }
   return {
     title,
     description,
-    alternates: { canonical: path },
+    alternates: { canonical: canonical ?? path },
     openGraph: publishedTime ? { ...shared, type: 'article', publishedTime } : { ...shared, type: 'website' },
     twitter: { card: 'summary_large_image', title, description, images },
   }

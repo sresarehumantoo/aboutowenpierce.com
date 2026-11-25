@@ -12,6 +12,7 @@ export type Post = {
   publishedAt: string
   categories: string[]
   featuredImage?: string
+  canonicalUrl?: string
   content: string
 }
 
@@ -48,7 +49,7 @@ export type Experience = {
   order?: number
 }
 
-const POST_KEYS = ['title', 'excerpt', 'publishedAt', 'categories', 'featuredImage', 'draft']
+const POST_KEYS = ['title', 'excerpt', 'publishedAt', 'categories', 'featuredImage', 'canonicalUrl', 'draft']
 const PROJECT_KEYS = ['title', 'description', 'techStack', 'links', 'featured', 'status', 'completedAt', 'featuredImage', 'draft']
 const LINK_KEYS = ['live', 'github', 'other']
 
@@ -91,6 +92,13 @@ function optionalImage(source: string, value: unknown): string | undefined {
   return image
 }
 
+function optionalCanonical(source: string, value: unknown): string | undefined {
+  if (value === undefined) return undefined
+  const url = requireString(source, 'canonicalUrl', value)
+  if (!url.startsWith('https://')) fail(source, `canonicalUrl ${url} must be an absolute https URL`)
+  return url
+}
+
 function readCollection(dir: string, allowedKeys: string[]) {
   const fullDir = path.join(CONTENT_DIR, dir)
   return fs
@@ -123,6 +131,7 @@ function allPosts(): Post[] {
       publishedAt: requireDate(source, 'publishedAt', data.publishedAt),
       categories: stringList(source, 'categories', data.categories),
       featuredImage: optionalImage(source, data.featuredImage),
+      canonicalUrl: optionalCanonical(source, data.canonicalUrl),
       content,
     }))
     .sort((a, b) => byDateDesc(a.publishedAt, b.publishedAt))
