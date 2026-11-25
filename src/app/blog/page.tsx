@@ -1,11 +1,12 @@
-import type { Metadata } from 'next'
 import { getPosts } from '@/lib/content'
 import { PostCards } from '@/components/PostCards'
+import { pageMetadata } from '@/lib/site'
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: 'Blog',
   description: 'Engineer first, writer... Sometimes! Excerpts on topics, trends, and a collection of mini-projects.',
-}
+  path: '/blog/',
+})
 
 export default function BlogPage() {
   const posts = getPosts()

@@ -4,9 +4,10 @@ import { Inter } from 'next/font/google'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { Nav } from '@/components/Nav'
 import { SearchBar } from '@/components/SearchBar'
-import { ImageProtection } from '@/components/ImageProtection'
 import { StickyHeader } from '@/components/StickyHeader'
+import { SwipeNav } from '@/components/SwipeNav'
 import { GitHubIcon, LinkedInIcon, MediumIcon, EmailIcon, PenIcon, FolderIcon, UserIcon, ShieldIcon } from '@/components/Icons'
+import { DEFAULT_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from '@/lib/site'
 import './globals.css'
 
 const inter = Inter({
@@ -15,72 +16,76 @@ const inter = Inter({
   variable: '--font-inter',
 })
 
+// 'unsafe-inline' scripts carry Next's hydration payload, since a static export has no
+// per-request nonce. React only needs eval in development, for its debug callstacks.
+const CONTENT_SECURITY_POLICY = [
+  "default-src 'self'",
+  `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ''}`,
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data:",
+  "font-src 'self'",
+  "connect-src 'self'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join('; ')
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Home',
-    template: '%s',
+    default: SITE_TITLE,
+    template: `%s | ${SITE_NAME}`,
   },
-  description: 'Security Engineer at Ally. Detection and response automation, least-privilege infrastructure for AI agents, and writing about security and home lab projects.',
-  metadataBase: new URL('https://aboutowenpierce.com'),
-  icons: {
-    icon: '/favicon.svg',
-  },
+  description: SITE_DESCRIPTION,
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://aboutowenpierce.com',
-    siteName: 'Owen Pierce',
-    title: 'Owen Pierce - Security Engineer',
-    description: 'Security Engineer at Ally. Detection and response automation, least-privilege infrastructure for AI agents, and writing about security and home lab projects.',
-    images: [
-      {
-        url: '/images/profile.jpg',
-        width: 900,
-        height: 1200,
-        alt: 'Owen Pierce - Security Engineer',
-      },
-    ],
+    siteName: SITE_NAME,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: [DEFAULT_IMAGE],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Owen Pierce - Security Engineer',
-    description: 'Security Engineer at Ally. Detection and response automation, least-privilege infrastructure for AI agents, and writing about security and home lab projects.',
-    images: ['/images/profile.jpg'],
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: [DEFAULT_IMAGE],
   },
 }
 
-export default function FrontendLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
-        {/* GitHub Pages cannot send headers, so the CSP rides in a meta tag. frame-ancestors is
-            ignored in meta form. unsafe-eval is kept from the server-side policy for Three.js. */}
-        <meta
-          httpEquiv="Content-Security-Policy"
-          content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'"
-        />
+        {/* GitHub Pages cannot send headers, so the CSP rides in a meta tag (which ignores
+            frame-ancestors). */}
+        <meta httpEquiv="Content-Security-Policy" content={CONTENT_SECURITY_POLICY} />
         <meta name="referrer" content="strict-origin-when-cross-origin" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="alternate" type="application/rss+xml" title="Owen Pierce - Blog" href="/feed.xml" />
         <meta name="theme-color" content="#2563eb" media="(prefers-color-scheme: light)" />
         <meta name="theme-color" content="#18181b" media="(prefers-color-scheme: dark)" />
-        {/* Redirect double-slash URLs before React hydration causes security errors */}
+        {/* Runs before first paint: redirects double-slash URLs, which break the router, and
+            applies a stored theme so an explicit choice doesn't flash the system theme first. */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               if (window.location.pathname.indexOf('//') === 0) {
                 window.location.replace(window.location.pathname.replace(/^\\/+/, '/'));
               }
+              try {
+                var theme = localStorage.getItem('theme');
+                if (theme === 'light' || theme === 'dark') document.documentElement.setAttribute('data-theme', theme);
+              } catch (e) {}
             `,
           }}
         />
       </head>
       <body>
-        <ImageProtection />
+        <a href="#main" className="skip-link">Skip to content</a>
         <StickyHeader>
           <div className="container header-inner">
             <Nav />
@@ -88,7 +93,8 @@ export default function FrontendLayout({
           </div>
         </StickyHeader>
 
-        <main>{children}</main>
+        <SwipeNav />
+        <main id="main" tabIndex={-1}>{children}</main>
 
         <footer className="footer">
           <div className="container footer-content">

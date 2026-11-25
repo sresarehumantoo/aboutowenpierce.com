@@ -1,13 +1,14 @@
-import type { Metadata } from 'next'
 import Image from 'next/image'
 import { getExperience } from '@/lib/content'
 import { formatDate as formatFullDate } from '@/lib/format'
 import { PersonJsonLd } from '@/components/JsonLd'
+import { pageMetadata } from '@/lib/site'
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: 'About',
   description: 'Learn more about Owen Pierce - background, experience, and skills.',
-}
+  path: '/about/',
+})
 
 function formatDate(date: string) {
   return formatFullDate(date, 'short', false)

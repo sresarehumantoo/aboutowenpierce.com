@@ -1,10 +1,11 @@
-import type { Metadata } from 'next'
 import { GitHubIcon, LinkedInIcon, MediumIcon, EmailIcon } from '@/components/Icons'
+import { pageMetadata } from '@/lib/site'
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: 'Contact',
   description: 'Get in touch with Owen Pierce - reach out via email or connect on social media.',
-}
+  path: '/contact/',
+})
 
 export default function ContactPage() {
   return (
@@ -30,7 +31,7 @@ export default function ContactPage() {
               <div className="contact-icon">
                 <EmailIcon size={32} />
               </div>
-              <h3>Email</h3>
+              <h2>Email</h2>
               <p>owenpierceee@gmail.com</p>
               <span className="contact-cta">Send a message</span>
             </a>
@@ -44,7 +45,7 @@ export default function ContactPage() {
               <div className="contact-icon">
                 <GitHubIcon size={32} />
               </div>
-              <h3>GitHub</h3>
+              <h2>GitHub</h2>
               <p>@SREsAreHumanToo</p>
               <span className="contact-cta">View projects</span>
             </a>
@@ -58,7 +59,7 @@ export default function ContactPage() {
               <div className="contact-icon">
                 <LinkedInIcon size={32} />
               </div>
-              <h3>LinkedIn</h3>
+              <h2>LinkedIn</h2>
               <p>@ProdGuardian</p>
               <span className="contact-cta">Connect with me</span>
             </a>
@@ -72,7 +73,7 @@ export default function ContactPage() {
               <div className="contact-icon">
                 <MediumIcon size={32} />
               </div>
-              <h3>Medium</h3>
+              <h2>Medium</h2>
               <p>@SREsAreHumanToo</p>
               <span className="contact-cta">Read articles</span>
             </a>

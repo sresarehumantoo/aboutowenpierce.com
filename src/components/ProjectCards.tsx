@@ -24,8 +24,8 @@ export function ProjectCards({ projects, columns = 3 }: Props) {
             <Image
               src={project.featuredImage || '/images/laptop-code.jpg'}
               alt={`${project.title} - project thumbnail`}
-              width={columns === 2 ? 600 : 400}
-              height={columns === 2 ? 375 : 250}
+              width={1200}
+              height={630}
             />
           </div>
           <div className="card-content">

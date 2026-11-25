@@ -76,11 +76,14 @@ function CubeGroup({ isSpinning, isDark, onSpinComplete }: CubeGroupProps) {
   const gradientColors = isDark ? darkGradient : lightGradient
 
   useEffect(() => {
-    if (isSpinning) {
-      spinStartTime.current = Date.now()
-      invalidate()
+    if (!isSpinning) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      onSpinComplete()
+      return
     }
-  }, [isSpinning, invalidate])
+    spinStartTime.current = Date.now()
+    invalidate()
+  }, [isSpinning, invalidate, onSpinComplete])
 
   // Repaint when the gradient swaps (theme change) — frameloop="demand" needs an
   // explicit invalidate, otherwise the cube keeps its old colors until next spin.
@@ -156,7 +159,7 @@ export function Logo3D({ isDark, isSpinning, onSpinComplete }: Logo3DProps) {
         gl={{
           antialias: true,
           alpha: true,
-          powerPreference: 'high-performance',
+          powerPreference: 'low-power',
         }}
         style={{ background: 'transparent' }}
       >

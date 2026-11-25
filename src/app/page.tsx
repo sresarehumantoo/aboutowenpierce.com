@@ -1,9 +1,16 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getPosts, getProjects } from '@/lib/content'
+import { pageMetadata, SITE_DESCRIPTION, SITE_TITLE } from '@/lib/site'
 import { HeroSection } from '@/components/HeroSection'
 import { WebsiteJsonLd } from '@/components/JsonLd'
 import { PostCards } from '@/components/PostCards'
 import { ProjectCards } from '@/components/ProjectCards'
+
+export const metadata: Metadata = {
+  ...pageMetadata({ title: SITE_TITLE, description: SITE_DESCRIPTION, path: '/' }),
+  title: { absolute: SITE_TITLE },
+}
 
 export default function HomePage() {
   const posts = getPosts({ limit: 3 })

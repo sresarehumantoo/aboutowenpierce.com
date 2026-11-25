@@ -25,8 +25,8 @@ export function PostCards({ posts, columns = 3 }: Props) {
             <Image
               src={post.featuredImage || '/images/code-screen.jpg'}
               alt={`${post.title} - blog post thumbnail`}
-              width={columns === 2 ? 600 : 400}
-              height={columns === 2 ? 375 : 250}
+              width={1200}
+              height={630}
             />
           </div>
           <div className="card-content">
@@ -37,9 +37,7 @@ export function PostCards({ posts, columns = 3 }: Props) {
             )}
             {post.excerpt && <p className="card-excerpt">{post.excerpt}</p>}
             <div className="card-meta">
-              {post.publishedAt && (
-                <span>{formatDate(post.publishedAt, columns === 2 ? 'long' : 'short')}</span>
-              )}
+              <time dateTime={post.publishedAt}>{formatDate(post.publishedAt, columns === 2 ? 'long' : 'short')}</time>
             </div>
           </div>
         </Link>

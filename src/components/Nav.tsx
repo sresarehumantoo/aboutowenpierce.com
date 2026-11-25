@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { useEffect, useRef, useState, useCallback, Suspense } from 'react'
+import { useEffect, useRef, useState, useCallback, useSyncExternalStore, Suspense } from 'react'
 import dynamic from 'next/dynamic'
 import { PenIcon, FolderIcon, UserIcon, EmailIcon, HomeIcon } from './Icons'
 
@@ -13,7 +13,7 @@ const Logo3D = dynamic(() => import('./Logo3D').then(mod => ({ default: mod.Logo
   ),
 })
 
-const navLinks = [
+export const navLinks = [
   { href: '/', label: 'Home', icon: HomeIcon, isLogo: true },
   { href: '/blog', label: 'Blog', icon: PenIcon },
   { href: '/projects', label: 'Projects', icon: FolderIcon },
@@ -21,13 +21,28 @@ const navLinks = [
   { href: '/about', label: 'About', icon: UserIcon },
 ]
 
+// Must match the breakpoint in globals.css that swaps .nav-desktop for .nav-mobile.
+const MOBILE_QUERY = '(max-width: 600px)'
+
+function subscribeMobile(onChange: () => void) {
+  const mq = window.matchMedia(MOBILE_QUERY)
+  mq.addEventListener('change', onChange)
+  return () => mq.removeEventListener('change', onChange)
+}
+
 export function Nav() {
   const pathname = usePathname()
   const router = useRouter()
   const navRef = useRef<HTMLElement>(null)
-  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0, opacity: 0 })
+  const indicatorRef = useRef<HTMLDivElement>(null)
   const [isSpinning, setIsSpinning] = useState(false)
   const [isDark, setIsDark] = useState(false)
+  // Only the visible nav gets a WebGL canvas; the hidden one would hold a second context.
+  const isMobile = useSyncExternalStore(
+    subscribeMobile,
+    () => window.matchMedia(MOBILE_QUERY).matches,
+    () => null,
+  )
 
   const isActive = (href: string) => {
     if (href === '/') {
@@ -45,13 +60,14 @@ export function Nav() {
     return false
   }
 
-  const handleNavClick = useCallback((e: React.MouseEvent, href: string) => {
+  const handleNavClick = (e: React.MouseEvent, href: string) => {
     const isAtTop = window.scrollY < 10
 
     if (isActive(href) && !isAtTop) {
       // Same page, not at top — scroll to top
       e.preventDefault()
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      // No explicit behavior: the html scroll-behavior rule applies, which honors reduced motion.
+      window.scrollTo({ top: 0 })
       return
     }
 
@@ -61,11 +77,9 @@ export function Nav() {
       router.push(href)
       return
     }
-  }, [pathname, router])
-
-  const getActiveIndex = () => {
-    return navLinks.findIndex((link) => isActive(link.href))
   }
+
+  const activeIndex = navLinks.findIndex((link) => isActive(link.href))
 
   // Theme detection for Logo3D
   useEffect(() => {
@@ -100,35 +114,32 @@ export function Nav() {
   }, [])
 
   useEffect(() => {
-    const updateIndicator = () => {
-      if (!navRef.current) return
+    const nav = navRef.current
+    const indicator = indicatorRef.current
+    if (!nav || !indicator) return
 
-      const activeIndex = getActiveIndex()
-      if (activeIndex === -1) {
-        setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }))
+    const updateIndicator = () => {
+      const activeItem = nav.querySelectorAll<HTMLElement>('.nav-item')[activeIndex]
+      if (!activeItem) {
+        indicator.style.opacity = '0'
         return
       }
-
-      const navItems = navRef.current.querySelectorAll('.nav-item')
-      const activeItem = navItems[activeIndex] as HTMLElement
-
-      if (activeItem) {
-        const navRect = navRef.current.getBoundingClientRect()
-        const itemRect = activeItem.getBoundingClientRect()
-
-        setIndicatorStyle({
-          left: itemRect.left - navRect.left,
-          width: itemRect.width,
-          opacity: 1,
-        })
-      }
+      indicator.style.transform = `translateX(${activeItem.offsetLeft}px)`
+      indicator.style.width = `${activeItem.offsetWidth}px`
+      indicator.style.opacity = '1'
     }
 
     updateIndicator()
+    // Enable the slide only after the first placement has been styled (the read forces
+    // that), so a full page load doesn't animate the indicator in from the left edge.
+    indicator.getBoundingClientRect()
+    indicator.classList.add('nav-indicator-ready')
 
-    window.addEventListener('resize', updateIndicator)
-    return () => window.removeEventListener('resize', updateIndicator)
-  }, [pathname])
+    // Item widths change when the web font swaps in, not just on window resize.
+    const observer = new ResizeObserver(updateIndicator)
+    nav.querySelectorAll('.nav-item').forEach((item) => observer.observe(item))
+    return () => observer.disconnect()
+  }, [activeIndex])
 
   const handleLogoClick = () => {
     if (!isSpinning) {
@@ -136,36 +147,34 @@ export function Nav() {
     }
   }
 
-  const handleSpinComplete = () => {
+  const handleSpinComplete = useCallback(() => {
     setIsSpinning(false)
-  }
+  }, [])
 
   return (
     <>
       {/* Desktop Nav */}
-      <nav className="nav nav-desktop" ref={navRef}>
-        <div
-          className="nav-indicator"
-          style={{
-            transform: `translateX(${indicatorStyle.left}px)`,
-            width: `${indicatorStyle.width}px`,
-            opacity: indicatorStyle.opacity,
-          }}
-        />
+      <nav className="nav nav-desktop" ref={navRef} aria-label="Main">
+        <div className="nav-indicator" ref={indicatorRef} aria-hidden="true" />
         {navLinks.map((link) => (
           link.isLogo ? (
             <Link
               key={link.href}
               href={link.href}
               className={`nav-item nav-logo ${isActive(link.href) ? 'active' : ''}`}
+              aria-current={isActive(link.href) ? 'page' : undefined}
               onClick={(e) => { handleLogoClick(); handleNavClick(e, link.href); }}
             >
               <Suspense fallback={<div className="logo-3d-container logo-3d-placeholder" />}>
-                <Logo3D
-                  isDark={isDark}
-                  isSpinning={isSpinning}
-                  onSpinComplete={handleSpinComplete}
-                />
+                {isMobile === false ? (
+                  <Logo3D
+                    isDark={isDark}
+                    isSpinning={isSpinning}
+                    onSpinComplete={handleSpinComplete}
+                  />
+                ) : (
+                  <div className="logo-3d-container logo-3d-placeholder" />
+                )}
               </Suspense>
               <span className="nav-logo-label">{link.label}</span>
             </Link>
@@ -174,6 +183,7 @@ export function Nav() {
               key={link.href}
               href={link.href}
               className={`nav-item ${isActive(link.href) ? 'active' : ''}`}
+              aria-current={isActive(link.href) ? 'page' : undefined}
               onClick={(e) => handleNavClick(e, link.href)}
             >
               {link.label}
@@ -183,7 +193,7 @@ export function Nav() {
       </nav>
 
       {/* Mobile Nav */}
-      <nav className="nav nav-mobile">
+      <nav className="nav nav-mobile" aria-label="Main">
         {navLinks.map((link) => {
           const Icon = link.icon
           const active = isActive(link.href)
@@ -193,16 +203,21 @@ export function Nav() {
               href={link.href}
               className={`nav-mobile-item ${active ? 'active' : ''}`}
               aria-label={link.label}
+              aria-current={active ? 'page' : undefined}
               onClick={(e) => { if (link.isLogo) handleLogoClick(); handleNavClick(e, link.href); }}
             >
               {link.isLogo ? (
                 <>
-                  <Suspense fallback={<div className="logo-3d-container logo-3d-placeholder" style={{ width: 24, height: 24 }} />}>
-                    <Logo3D
-                      isDark={isDark}
-                      isSpinning={isSpinning}
-                      onSpinComplete={handleSpinComplete}
-                    />
+                  <Suspense fallback={<div className="logo-3d-container logo-3d-placeholder" />}>
+                    {isMobile ? (
+                      <Logo3D
+                        isDark={isDark}
+                        isSpinning={isSpinning}
+                        onSpinComplete={handleSpinComplete}
+                      />
+                    ) : (
+                      <div className="logo-3d-container logo-3d-placeholder" />
+                    )}
                   </Suspense>
                   <span className="nav-mobile-label">{link.label}</span>
                 </>

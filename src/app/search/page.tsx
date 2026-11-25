@@ -5,13 +5,14 @@ import { SearchResults } from '@/components/SearchResults'
 export const metadata: Metadata = {
   title: 'Search',
   description: 'Search the site',
+  robots: { index: false },
 }
 
 export default function SearchPage() {
   return (
     <div className="section">
       <div className="container">
-        <Suspense fallback={null}>
+        <Suspense fallback={<div className="search-results" />}>
           <SearchResults />
         </Suspense>
       </div>

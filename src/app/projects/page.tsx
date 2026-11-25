@@ -1,11 +1,12 @@
-import type { Metadata } from 'next'
 import { getProjects } from '@/lib/content'
 import { ProjectCards } from '@/components/ProjectCards'
+import { pageMetadata } from '@/lib/site'
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: 'Projects',
   description: 'A showcase of my work and side projects.',
-}
+  path: '/projects/',
+})
 
 export default function ProjectsPage() {
   const projects = getProjects()

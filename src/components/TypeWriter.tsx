@@ -10,23 +10,28 @@ interface TypeWriterProps {
 }
 
 export function TypeWriter({ text, delay = 100, className, style }: TypeWriterProps) {
-  const [displayText, setDisplayText] = useState('')
-  const [currentIndex, setCurrentIndex] = useState(0)
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
-    if (currentIndex < text.length) {
-      const timeout = setTimeout(() => {
-        setDisplayText(prev => prev + text[currentIndex])
-        setCurrentIndex(prev => prev + 1)
-      }, delay)
-      return () => clearTimeout(timeout)
-    }
-  }, [currentIndex, delay, text])
+    const step = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? text.length : 1
+    let i = 0
+    const interval = setInterval(() => {
+      i += step
+      setCount(i)
+      if (i >= text.length) clearInterval(interval)
+    }, delay)
+    return () => clearInterval(interval)
+  }, [delay, text])
 
+  // The full text is in the DOM from the first (static) render so crawlers and screen
+  // readers get the real heading; the animated copy is decorative.
   return (
     <span className={className} style={style}>
-      {displayText}
-      <span className="typewriter-cursor">|</span>
+      <span className="sr-only">{text}</span>
+      <span aria-hidden="true">
+        {text.slice(0, count)}
+        <span className="typewriter-cursor">|</span>
+      </span>
     </span>
   )
 }

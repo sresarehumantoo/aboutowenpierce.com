@@ -35,7 +35,7 @@ export function SearchResults() {
   const totalResults = posts.length + projects.length
 
   return (
-    <>
+    <div className="search-results">
       <div className="post-header" style={{ paddingTop: '2rem', textAlign: 'left' }}>
         <h1 className="section-title">{query ? `Search results for "${query}"` : 'Search'}</h1>
         {query && entries && (
@@ -110,6 +110,6 @@ export function SearchResults() {
           )}
         </>
       )}
-    </>
+    </div>
   )
 }
