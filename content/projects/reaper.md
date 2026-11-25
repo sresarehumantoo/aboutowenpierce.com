@@ -6,6 +6,7 @@ links: {"github": "https://github.com/sresarehumantoo/reaper"}
 featured: true
 status: published
 completedAt: 2026-05-14
+featuredImage: /images/covers/reaper.png
 ---
 reaper started as a way to triage JavaScript malware samples (packed payloads, eval layers, char-code arrays, base64 staging, smart-contract-hosted payloads) and works just as well as a plain dead-code finder on ordinary source trees.
 

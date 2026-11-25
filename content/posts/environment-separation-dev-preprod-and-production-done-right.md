@@ -3,12 +3,12 @@ title: "Environment Separation - Dev, Preprod, and Production Done Right"
 excerpt: "Why you need more than just \"local\" and \"production,\" and how to build environment separation that actually helps instead of becoming a maintenance burden."
 publishedAt: 2026-02-04
 categories: ["DevOps", "Best Practices", "Infrastructure"]
-featuredImage: /images/laptop-code.jpg
+featuredImage: /images/covers/environment-separation-dev-preprod-and-production-done-right.png
 draft: false
 ---
-Early in my career, I worked on a project with two environments: my laptop and production. Testing meant deploying to production and hoping nothing broke. Debugging meant adding console.log statements to the live site.
+Plenty of projects start with two environments: a laptop and production. Testing means deploying to production and hoping nothing breaks. Debugging means adding console.log statements to the live site.
 
-It worked, until it didn't. One bad deployment took down the site for six hours, cost the company real money, and taught me a lesson I should have learned from a book.
+It works, until it doesn't. One bad deployment takes the site down, real users notice, and the lesson arrives the expensive way.
 
 Environment separation isn't bureaucracy. It's how you ship with confidence.
 
@@ -111,7 +111,7 @@ Run with: `ansible-playbook -l preprod site.yml`
 
 **Docker Compose** handles this with overlay files:
 ```
-docker/
+.
 ├── docker-compose.yml           # Base configuration
 ├── docker-compose.dev.yml       # Dev overrides
 ├── docker-compose.preprod.yml   # Preprod overrides
@@ -237,6 +237,8 @@ The key principle: **promote artifacts, don't rebuild**.
 
 When you deploy to preprod, you build a Docker image. When you promote to production, you deploy the *same image*. No rebuilding. This ensures what you tested is exactly what you deploy.
 
+I'll admit my own pipeline for this site didn't fully follow this rule. Preprod deployed the image built from `main`, but a release tag kicked off a fresh build for production. Same commit, same Dockerfile, but technically a different artifact. Retagging the tested image would have closed that gap.
+
 ```bash
 # Build and tag
 docker build -t myapp:v1.2.3 .
@@ -288,7 +290,7 @@ sops -d secrets.enc.yml > secrets.yml
 
 **Snowflake environments**: Each environment is configured differently, manually. Differences creep in. What works in preprod fails in prod for mysterious reasons.
 
-**Shared databases**: Using production database from preprod "for realistic testing." Until a bug in preprod code corrupts production data.
+**Shared databases**: Using the production database from preprod "for realistic testing." Until a bug in preprod code corrupts production data.
 
 **Shared secrets**: Same API keys everywhere. One compromised environment exposes all.
 
@@ -311,9 +313,21 @@ This only works if you:
 
 When preprod and prod drift, you lose the protection that preprod provides. If they're running different versions of infrastructure, you're not testing what you'll deploy.
 
+## How This Site Did It
+
+When this site was self-hosted (it now runs as a static export on GitHub Pages), it used the layout described above:
+
+- **Dev**: Docker Compose with a local PostgreSQL container on the developer machine.
+- **Preprod**: Its own app and database VMs, a self-signed certificate, and access only from the internal network. To save resources, its app and database shared one network segment.
+- **Production**: Separate VMs, Let's Encrypt certificates, Cloudflare in front, and the database in its own isolated network zone.
+
+Terraform workspaces with per-environment variable files, Ansible `group_vars`, and Compose overlays kept all three on one codebase. Each environment had its own secrets in HashiCorp Vault. Merges to `main` built images that could be deployed to preprod with one click, and version tags did the same for production.
+
+The preprod network shortcut is a good example of the trade-offs above. It was cheaper, but it meant preprod would never have caught a firewall rule that blocked the app from reaching the database in production.
+
 ## Conclusion
 
-Environment separation isn't about bureaucracy—it's about sleeping well at night. When you have confidence that preprod caught issues before users saw them, deployments stop being scary.
+Environment separation isn't about bureaucracy. It's about sleeping well at night. When you have confidence that preprod caught issues before users saw them, deployments stop being scary.
 
 Start with the basics:
 1. Local dev with containerized dependencies

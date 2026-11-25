@@ -6,6 +6,7 @@ links: {"github": "https://github.com/sresarehumantoo/wsmancer"}
 featured: true
 status: published
 completedAt: 2026-08-13
+featuredImage: /images/covers/wsmancer.png
 ---
 evil-winrm has been the go-to WinRM shell for years, but it wraps commands in WinRS rather than speaking the PowerShell Remoting Protocol. wsmancer is a rebuild from scratch in Go that speaks PSRP end to end.
 

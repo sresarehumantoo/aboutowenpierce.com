@@ -3,7 +3,7 @@ title: "Terraform + Ansible - The Infrastructure as Code Power Couple"
 excerpt: "Why use two tools when you could use one? Because they solve different problems. Here's how Terraform and Ansible complement each other for complete infrastructure automation."
 publishedAt: 2026-03-22
 categories: ["Infrastructure", "DevOps", "Automation"]
-featuredImage: /images/workspace.jpg
+featuredImage: /images/covers/terraform-ansible-the-infrastructure-as-code-power-couple.png
 draft: false
 ---
 "Just use Terraform for everything." "Ansible can do provisioning too." "Why complicate things with two tools?"
@@ -26,7 +26,7 @@ Both tools have tried to expand into each other's territory. Terraform has `prov
 
 ## What Terraform Does Best
 
-Terraform excels at managing *resources*—things with lifecycle that exist independently of your servers.
+Terraform excels at managing *resources*: things with a lifecycle that exist independently of your servers.
 
 **Virtual machines**: Create, modify, destroy VMs based on templates. Track which VMs exist, their specifications, and their relationships.
 
@@ -64,7 +64,7 @@ This code says "an app server should exist with these specs." Terraform handles:
 
 ## What Ansible Does Best
 
-Ansible excels at *configuration*—making a server behave the way you want.
+Ansible excels at *configuration*: making a server behave the way you want.
 
 **Package management**: Install, update, remove software. Ensure specific versions are present.
 
@@ -168,7 +168,7 @@ all:
           ansible_host: 192.0.2.11
 ```
 
-Some teams use dynamic inventory scripts that query Terraform state. Others generate static inventory files as part of the deployment pipeline. Both approaches work.
+Some teams use dynamic inventory scripts that query Terraform state. Others generate static inventory files as part of the deployment pipeline. A third option, and the one I used for this site, is to assign static addresses: the IP lives in the Terraform variables, cloud-init applies it at first boot, and the Ansible inventory lists the same address. It's less clever, but there's nothing to regenerate. All of these work.
 
 ## Why Not Just One Tool?
 
@@ -190,23 +190,25 @@ The Unix philosophy applies here: tools that do one thing well compose better th
 
 ### Pattern 1: Environment Separation
 
-Use Terraform workspaces or separate state files for different environments:
+Use Terraform workspaces or separate state files for different environments, with a variable file per environment:
 
 ```
 terraform/
 ├── environments/
-│   ├── dev.tfvars
+│   ├── common.tfvars
 │   ├── preprod.tfvars
 │   └── prod.tfvars
 └── main.tf
 ```
+
+Selecting the workspace and the variable file together (`terraform workspace select prod`, then `terraform apply -var-file=environments/common.tfvars -var-file=environments/prod.tfvars`) keeps each environment's state separate while sharing one definition.
 
 Use Ansible group_vars for environment-specific configuration:
 
 ```
 ansible/
 ├── group_vars/
-│   ├── dev/
+│   ├── all.yml
 │   ├── preprod/
 │   └── prod/
 └── site.yml
@@ -231,23 +233,23 @@ Ansible roles encapsulate reusable configuration:
 ```yaml
 - hosts: web_servers
   roles:
-    - security_hardening
+    - system_hardening
     - docker
     - app_deploy
 ```
 
 ### Pattern 3: Deployment Levels
 
-Create multiple entry points for different scenarios:
+Create multiple entry points for different scenarios. These don't have to be separate playbooks; tagging roles in one playbook and wrapping the commands in a small script works just as well:
 
 | Scenario | Terraform | Ansible |
 |----------|-----------|---------|
-| Initial deploy | apply | site.yml |
-| Code update | (skip) | deploy.yml |
-| Config change | (skip) | configure.yml |
-| Full rebuild | destroy, apply | site.yml |
+| Initial deploy | apply | site.yml (all roles) |
+| Code update | (skip) | site.yml, `app` and `deploy` tags only |
+| Config change | (skip) | site.yml (all roles) |
+| Full rebuild | destroy, apply | site.yml (all roles) |
 
-This avoids running the full stack when you only need a subset.
+This avoids running the full stack when you only need a subset. For this site, a `deploy.sh <env> <action>` wrapper mapped actions like `full-stack`, `configure`, and `deploy` onto exactly these combinations.
 
 ## The Mental Model
 
@@ -261,11 +263,11 @@ Infrastructure changes are relatively rare (add a server, change a network). Con
 
 ## Conclusion
 
-Using Terraform and Ansible together isn't about complexity—it's about clarity. Each tool has a clear responsibility. When something goes wrong, you know where to look.
+Using Terraform and Ansible together isn't about complexity. It's about clarity. Each tool has a clear responsibility. When something goes wrong, you know where to look.
 
 Terraform state shows you what infrastructure exists. Ansible playbooks show you how it's configured. Together, they provide a complete picture of your systems that can be version controlled, reviewed, and reproduced.
 
-The best infrastructure is the kind you can delete and recreate without fear. With Terraform and Ansible together, that's not just possible—it's the standard workflow.
+The best infrastructure is the kind you can delete and recreate without fear. With Terraform and Ansible together, that's not just possible; it's the standard workflow.
 
 ---
 
