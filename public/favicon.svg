@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 100 100">
+  <!-- 2x2x2 Cube Grid - Isometric view -->
+  <!-- Dark mode colors: zinc bottom -> purple top -->
+
+  <!-- TOP LAYER (4 purple cube tops in 2x2 grid) -->
+  <polygon points="30,15 50,5 70,15 50,25" fill="#8b5cf6"/>
+  <polygon points="50,25 70,15 90,25 70,35" fill="#7c3aed"/>
+  <polygon points="10,25 30,15 50,25 30,35" fill="#a78bfa"/>
+  <polygon points="30,35 50,25 70,35 50,45" fill="#6d28d9"/>
+
+  <!-- LEFT FACE (2x2 grid) -->
+  <polygon points="10,25 30,35 30,55 10,45" fill="#7c3aed"/>
+  <polygon points="10,45 30,55 30,75 10,65" fill="#52525b"/>
+  <polygon points="30,35 50,45 50,65 30,55" fill="#6d28d9"/>
+  <polygon points="30,55 50,65 50,85 30,75" fill="#3f3f46"/>
+
+  <!-- RIGHT FACE (2x2 grid) -->
+  <polygon points="70,35 90,25 90,45 70,55" fill="#5b21b6"/>
+  <polygon points="70,55 90,45 90,65 70,75" fill="#71717a"/>
+  <polygon points="50,45 70,35 70,55 50,65" fill="#4c1d95"/>
+  <polygon points="50,65 70,55 70,75 50,85" fill="#52525b"/>
+</svg>

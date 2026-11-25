@@ -1,0 +1,39 @@
+{
+  "name": "aboutowenpierce",
+  "version": "1.0.0",
+  "description": "Personal blog and portfolio site for Owen Pierce",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@react-three/fiber": "^9.7.0",
+    "gray-matter": "^4.0.3",
+    "next": "^16.3.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0",
+    "react-syntax-highlighter": "^16.1.0",
+    "remark-gfm": "^4.0.1",
+    "three": "^0.185.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.2.5",
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "@types/three": "^0.185.4",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^16.3.3",
+    "typescript": "^6.0.3"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "overrides": {
+    "postcss": "^8.5.26"
+  }
+}

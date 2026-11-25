@@ -1,0 +1,176 @@
+[
+  {
+    "title": "Cyber Security Engineer",
+    "company": "Ally Financial",
+    "location": "Detroit, MI (Hybrid)",
+    "type": "work",
+    "startDate": "2026-10-01",
+    "current": true,
+    "description": "Security engineer on Ally's threat hunting, detection engineering, and automation engineering team.",
+    "highlights": [
+      "Leading GitLab enablement for four security teams (Detection Engineering, Continuous Monitoring, Threat Hunting, and Automation Engineering), onboarding each team and designing their CI pipelines",
+      "Building detections-as-code workflows with linting and automated checks in CI",
+      "Applying linting, compliance, and security best practices to MCP and Skill development"
+    ],
+    "skills": ["Detection Engineering", "Security Automation", "GitLab CI", "AWS"],
+    "order": 1
+  },
+  {
+    "title": "Cyber Security Analyst, Operational Readiness",
+    "company": "Ally Financial",
+    "location": "Detroit, MI (Hybrid)",
+    "type": "work",
+    "startDate": "2026-07-01",
+    "endDate": "2026-10-01",
+    "highlights": [
+      "Owned the SOC's processes, documentation, and tooling in the Operational Readiness pillar",
+      "Led the SOC's AI adoption, building MCP-based tooling that automated documentation upkeep and ServiceNow operations",
+      "Wrote and maintained the runbooks and playbooks used in day-to-day triage and incident response",
+      "Built dashboards tracking analyst performance and SOC operational metrics, and helped hire and onboard new analysts"
+    ],
+    "skills": ["Security Automation", "MCP", "ServiceNow"],
+    "order": 2
+  },
+  {
+    "title": "Cyber Security Analyst, SOC",
+    "company": "Ally Financial",
+    "location": "Detroit, MI (Hybrid)",
+    "type": "work",
+    "startDate": "2026-03-01",
+    "endDate": "2026-07-01",
+    "highlights": [
+      "Highest ticket volume on the L1 team (1,082 tickets, 21% more than the next analyst) while keeping top documentation and QA scores",
+      "Investigated the full range of SOC incident types, with a focus on malicious code and unauthorized access",
+      "The team's AWS subject matter expert for cloud alert triage and investigations",
+      "Led a multi-day investigation into a credential validation campaign tied to attempted fraud, fingerprinting the actor across several thousand IPs"
+    ],
+    "skills": ["Threat Detection", "Incident Response", "Threat Hunting", "AWS"],
+    "order": 3
+  },
+  {
+    "title": "Site Reliability Engineer (Contract, Brooksource)",
+    "company": "Ally Financial",
+    "location": "Detroit, MI (Hybrid)",
+    "type": "work",
+    "startDate": "2025-04-01",
+    "endDate": "2026-03-01",
+    "highlights": [
+      "Lead SRE for 2 production applications and supported 3 more, including 2 mission-critical systems",
+      "Led the team's migration from Splunk to Dynatrace and redesigned the alerting architecture",
+      "Built doc-writer, an MCP-based Confluence documentation writer and one of the earliest MCP tools at Ally",
+      "Built SRE automation in Python and Go, deployed to AWS with Terraform and CI/CD"
+    ],
+    "skills": ["Python", "Go", "Terraform", "AWS", "Dynatrace"],
+    "order": 4
+  },
+  {
+    "title": "Information Technology Administrator",
+    "company": "FoodArt Catered Affairs",
+    "location": "Ann Arbor, MI",
+    "type": "work",
+    "startDate": "2021-01-01",
+    "endDate": "2025-04-01",
+    "description": "The only IT staff member at a small catering business, part-time while studying at Eastern Michigan.",
+    "highlights": [
+      "Owned the company's servers, network, and website end to end",
+      "Migrated the website to AWS, configured the firewall, and segmented the network",
+      "Automated routine administration with Ansible, PowerShell, and Bash"
+    ],
+    "skills": ["Ansible", "PowerShell", "Bash", "AWS", "Networking"],
+    "order": 5
+  },
+  {
+    "title": "B.S. Information Assurance and Cyber Defense",
+    "company": "Eastern Michigan University",
+    "location": "Ypsilanti, MI",
+    "type": "education",
+    "startDate": "2020-09-01",
+    "endDate": "2024-12-01",
+    "highlights": [],
+    "skills": [],
+    "order": 10
+  },
+  {
+    "title": "Certified Penetration Testing Specialist (CPTS)",
+    "company": "Hack The Box",
+    "type": "certification",
+    "startDate": "2024-05-01",
+    "description": "Among the first 500 holders of HTB's hands-on penetration testing certification.",
+    "highlights": ["Top 500"],
+    "skills": ["Penetration Testing", "Active Directory"],
+    "order": 20
+  },
+  {
+    "title": "Certified Defensive Security Analyst (CDSA)",
+    "company": "Hack The Box",
+    "type": "certification",
+    "startDate": "2026-04-01",
+    "description": "HTB's hands-on blue team certification, covering incident response, threat hunting, and detection.",
+    "highlights": ["Blue Team"],
+    "skills": ["Incident Response", "Threat Hunting"],
+    "order": 21
+  },
+  {
+    "title": "Argon Pro Lab",
+    "company": "Hack The Box",
+    "type": "certification",
+    "startDate": "2026-07-01",
+    "highlights": [],
+    "skills": ["Active Directory", "Pivoting"],
+    "order": 22
+  },
+  {
+    "title": "AWS Certified Solutions Architect - Associate",
+    "company": "Amazon Web Services",
+    "type": "certification",
+    "startDate": "2026-03-01",
+    "highlights": [],
+    "skills": [],
+    "order": 23
+  },
+  {
+    "title": "HashiCorp Certified: Terraform Associate (003)",
+    "company": "HashiCorp",
+    "type": "certification",
+    "startDate": "2025-04-01",
+    "highlights": [],
+    "skills": [],
+    "order": 24
+  },
+  {
+    "title": "AWS Certified Cloud Practitioner",
+    "company": "Amazon Web Services",
+    "type": "certification",
+    "startDate": "2025-05-01",
+    "highlights": [],
+    "skills": [],
+    "order": 25
+  },
+  {
+    "title": "CompTIA Security Analytics Professional (CSAP)",
+    "company": "CompTIA",
+    "type": "certification",
+    "startDate": "2024-11-01",
+    "highlights": [],
+    "skills": [],
+    "order": 26
+  },
+  {
+    "title": "CompTIA CySA+",
+    "company": "CompTIA",
+    "type": "certification",
+    "startDate": "2024-11-01",
+    "highlights": [],
+    "skills": [],
+    "order": 27
+  },
+  {
+    "title": "CompTIA Security+",
+    "company": "CompTIA",
+    "type": "certification",
+    "startDate": "2024-10-01",
+    "highlights": [],
+    "skills": [],
+    "order": 28
+  }
+]
