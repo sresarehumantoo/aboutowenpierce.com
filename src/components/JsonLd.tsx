@@ -1,3 +1,5 @@
+import { DEFAULT_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/lib/site'
+
 type JsonLdProps = {
   data: Record<string, unknown>
 }
@@ -15,12 +17,12 @@ export function WebsiteJsonLd() {
   const data = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Owen Pierce',
-    url: 'https://aboutowenpierce.com',
-    description: 'Security Engineer at Ally. Detection and response automation, least-privilege infrastructure for AI agents, and writing about security and home lab projects.',
+    name: SITE_NAME,
+    url: SITE_URL,
+    description: SITE_DESCRIPTION,
     author: {
       '@type': 'Person',
-      name: 'Owen Pierce',
+      name: SITE_NAME,
     },
   }
   return <JsonLd data={data} />
@@ -30,9 +32,9 @@ export function PersonJsonLd() {
   const data = {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    name: 'Owen Pierce',
-    url: 'https://aboutowenpierce.com',
-    image: 'https://aboutowenpierce.com/images/profile.jpg',
+    name: SITE_NAME,
+    url: SITE_URL,
+    image: new URL(DEFAULT_IMAGE.url, SITE_URL).href,
     jobTitle: 'Security Engineer',
     worksFor: {
       '@type': 'Organization',
@@ -88,19 +90,19 @@ export function BlogPostJsonLd({
     '@type': 'BlogPosting',
     headline: title,
     description: description || '',
-    url: `https://aboutowenpierce.com/blog/${slug}`,
+    url: `${SITE_URL}/blog/${slug}/`,
     datePublished: publishedAt,
     dateModified: updatedAt || publishedAt,
-    image: image ? new URL(image, 'https://aboutowenpierce.com').href : 'https://aboutowenpierce.com/images/profile.jpg',
+    image: new URL(image || DEFAULT_IMAGE.url, SITE_URL).href,
     author: {
       '@type': 'Person',
-      name: 'Owen Pierce',
-      url: 'https://aboutowenpierce.com',
+      name: SITE_NAME,
+      url: SITE_URL,
     },
     publisher: {
       '@type': 'Person',
-      name: 'Owen Pierce',
-      url: 'https://aboutowenpierce.com',
+      name: SITE_NAME,
+      url: SITE_URL,
     },
   }
   return <JsonLd data={data} />

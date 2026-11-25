@@ -1,11 +1,6 @@
 'use client'
 
-import { useEffect, useSyncExternalStore } from 'react'
-
-// Client-only read of the URL shape, so it can be derived during render rather
-// than assigned from an effect. A no-op subscribe is correct here: the pathname
-// cannot change without a navigation, which remounts this boundary.
-const noopSubscribe = () => () => {}
+import { useEffect } from 'react'
 
 export default function GlobalError({
   error,
@@ -14,27 +9,9 @@ export default function GlobalError({
   error: Error & { digest?: string }
   reset: () => void
 }) {
-  // Check if this is a double-slash URL causing security errors
-  const isDoubleSlashUrl = useSyncExternalStore(
-    noopSubscribe,
-    () => window.location.pathname.startsWith('//'),
-    () => false,
-  )
-
   useEffect(() => {
     console.error('Global error:', error)
   }, [error])
-
-  useEffect(() => {
-    if (!isDoubleSlashUrl) return
-
-    // Attempt to redirect to the normalized path
-    const normalizedPath = window.location.pathname.replace(/^\/+/, '/')
-    const timer = setTimeout(() => {
-      window.location.replace(normalizedPath + window.location.search + window.location.hash)
-    }, 2000)
-    return () => clearTimeout(timer)
-  }, [isDoubleSlashUrl])
 
   return (
     <html lang="en">
@@ -146,24 +123,14 @@ export default function GlobalError({
       </head>
       <body>
         <div className="error-page">
-          <h1 className="error-code">{isDoubleSlashUrl ? 'Oops!' : '500'}</h1>
-          <h2 className="error-title">
-            {isDoubleSlashUrl ? 'Invalid URL' : 'Something Went Wrong'}
-          </h2>
-          <p className="error-message">
-            {isDoubleSlashUrl
-              ? 'The URL you entered contains extra slashes. Redirecting you to the correct page...'
-              : 'A critical error occurred. Please try again later.'}
-          </p>
-          {!isDoubleSlashUrl && error.digest && (
-            <p className="error-digest">Error ID: {error.digest}</p>
-          )}
+          <h1 className="error-code">500</h1>
+          <h2 className="error-title">Something Went Wrong</h2>
+          <p className="error-message">A critical error occurred. Please try again later.</p>
+          {error.digest && <p className="error-digest">Error ID: {error.digest}</p>}
           <div className="error-actions">
-            {!isDoubleSlashUrl && (
-              <button onClick={reset} className="error-button">
-                Try Again
-              </button>
-            )}
+            <button onClick={reset} className="error-button">
+              Try Again
+            </button>
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- global-error has no router context */}
             <a href="/" className="error-button error-button-secondary">
               Go Home
