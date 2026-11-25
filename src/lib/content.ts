@@ -34,6 +34,7 @@ export type Project = {
   featured: boolean
   status?: ProjectStatus
   license?: string
+  privateSource: boolean
   completedAt: string
   featuredImage?: string
   demo?: { src: string; poster: string; alt: string }
@@ -55,7 +56,7 @@ export type Experience = {
 }
 
 const POST_KEYS = ['title', 'excerpt', 'publishedAt', 'categories', 'featuredImage', 'canonicalUrl', 'project', 'draft']
-const PROJECT_KEYS = ['title', 'description', 'techStack', 'links', 'featured', 'status', 'license', 'completedAt', 'featuredImage', 'demo', 'draft']
+const PROJECT_KEYS = ['title', 'description', 'techStack', 'links', 'featured', 'status', 'license', 'privateSource', 'completedAt', 'featuredImage', 'demo', 'draft']
 const LINK_KEYS = ['live', 'github', 'other']
 const DEMO_KEYS = ['src', 'poster', 'alt']
 const PROJECT_STATUSES: ProjectStatus[] = ['active', 'maintained', 'archived']
@@ -191,6 +192,7 @@ function allProjects(): Project[] {
         featured: Boolean(data.featured),
         status: optionalStatus(source, data.status),
         license: data.license === undefined ? undefined : requireString(source, 'license', data.license),
+        privateSource: Boolean(data.privateSource),
         completedAt: requireDate(source, 'completedAt', data.completedAt),
         featuredImage: optionalImage(source, data.featuredImage),
         demo: optionalDemo(source, data.demo),

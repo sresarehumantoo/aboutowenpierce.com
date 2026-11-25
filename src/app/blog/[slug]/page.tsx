@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getPostBySlug, getPosts } from '@/lib/content'
+import Link from 'next/link'
+import { getPostBySlug, getPosts, getProjectBySlug } from '@/lib/content'
 import { formatDate, readingMinutes } from '@/lib/format'
 import { pageMetadata } from '@/lib/site'
 import { Markdown } from '@/components/Markdown'
@@ -37,6 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PostPage({ params }: Props) {
   const post = await loadPost(params)
+  const project = post.project ? getProjectBySlug(post.project) : null
 
   return (
     <article>
@@ -62,6 +64,14 @@ export default async function PostPage({ params }: Props) {
       <div className="post-content" style={{ paddingTop: 0 }}>
         <Markdown content={post.content} />
       </div>
+
+      {project && (
+        <footer className="post-footer">
+          <p className="post-project">
+            Part of <Link href={`/projects/${project.slug}`}>{project.title}</Link>: {project.description}
+          </p>
+        </footer>
+      )}
     </article>
   )
 }

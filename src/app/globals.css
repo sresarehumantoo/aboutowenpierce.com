@@ -1971,3 +1971,138 @@ a.card {
     transform: none;
   }
 }
+
+/* Project detail */
+.project-header {
+  padding-bottom: 2rem;
+}
+
+.project-lede {
+  max-width: 40rem;
+  margin: 0 auto 1.25rem;
+  font-size: clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
+  color: var(--color-text-secondary);
+  text-wrap: pretty;
+}
+
+.project-facts {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.7rem;
+  border-radius: 9999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-transform: capitalize;
+  color: var(--color-text);
+}
+
+.status-badge::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+
+.status-active::before {
+  background: #16a34a;
+}
+
+.status-maintained::before {
+  background: #2563eb;
+}
+
+.status-archived::before {
+  background: #9ca3af;
+}
+
+.project-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.project-tags {
+  justify-content: center;
+}
+
+.project-demo {
+  margin: 2rem 0 2.5rem;
+}
+
+.project-demo video {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #282a36;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+}
+
+.project-writing {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 1rem + 2vw, 3rem) 3rem;
+}
+
+.project-writing h2 {
+  font-size: 1.35rem;
+  margin-bottom: 1rem;
+}
+
+.project-writing ul {
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+}
+
+.project-writing li {
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--color-border);
+  border-left: 3px solid #7c3aed;
+  border-radius: 0.75rem;
+  background: var(--color-bg-secondary);
+}
+
+.project-writing li a {
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.project-writing time {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  margin: 0.25rem 0 0.5rem;
+}
+
+.project-writing p {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+}
+
+.post-project {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+}
+
+.post-project a {
+  font-weight: 600;
+}
