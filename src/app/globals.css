@@ -993,8 +993,9 @@ a.card {
 .about-image-wrapper {
   position: relative;
   flex-shrink: 0;
+  align-self: flex-start;
   width: 280px;
-  min-height: 320px;
+  aspect-ratio: 3 / 4;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -1542,8 +1543,10 @@ a.card {
 
   .about-image-wrapper {
     width: 100%;
+    max-width: 320px;
     height: auto;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 4;
+    margin-inline: auto;
   }
 
   .about-bio {
