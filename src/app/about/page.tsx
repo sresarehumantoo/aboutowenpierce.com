@@ -41,7 +41,7 @@ export default function AboutPage() {
           <div className="about-intro">
             <div className="about-image-wrapper">
               <Image
-                src="/images/profile-placeholder.jpg"
+                src="/images/profile.jpg"
                 alt="Owen Pierce - Security Engineer"
                 fill
                 sizes="(max-width: 768px) 100vw, 280px"

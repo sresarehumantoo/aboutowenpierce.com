@@ -34,9 +34,9 @@ export const metadata: Metadata = {
     description: 'Security Engineer at Ally. Detection and response automation, least-privilege infrastructure for AI agents, and writing about security and home lab projects.',
     images: [
       {
-        url: '/images/profile-placeholder.jpg',
-        width: 1200,
-        height: 630,
+        url: '/images/profile.jpg',
+        width: 900,
+        height: 1200,
         alt: 'Owen Pierce - Security Engineer',
       },
     ],
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Owen Pierce - Security Engineer',
     description: 'Security Engineer at Ally. Detection and response automation, least-privilege infrastructure for AI agents, and writing about security and home lab projects.',
-    images: ['/images/profile-placeholder.jpg'],
+    images: ['/images/profile.jpg'],
   },
 }
 
