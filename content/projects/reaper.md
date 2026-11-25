@@ -4,7 +4,8 @@ description: "Open-source triage for obfuscated JavaScript and TypeScript malwar
 techStack: ["TypeScript", "Babel", "Docker", "Malware Analysis"]
 links: {"github": "https://github.com/sresarehumantoo/reaper"}
 featured: true
-status: published
+status: active
+license: MIT
 completedAt: 2026-05-14
 featuredImage: /images/covers/reaper.png
 ---

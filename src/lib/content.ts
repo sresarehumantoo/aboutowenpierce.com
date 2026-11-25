@@ -13,6 +13,7 @@ export type Post = {
   categories: string[]
   featuredImage?: string
   canonicalUrl?: string
+  project?: string
   content: string
 }
 
@@ -22,6 +23,8 @@ export type ProjectLinks = {
   other?: { label: string; url: string }[]
 }
 
+export type ProjectStatus = 'active' | 'maintained' | 'archived'
+
 export type Project = {
   slug: string
   title: string
@@ -29,9 +32,11 @@ export type Project = {
   techStack: string[]
   links: ProjectLinks
   featured: boolean
-  status?: string
+  status?: ProjectStatus
+  license?: string
   completedAt: string
   featuredImage?: string
+  demo?: { src: string; poster: string; alt: string }
   content: string
 }
 
@@ -49,9 +54,11 @@ export type Experience = {
   order?: number
 }
 
-const POST_KEYS = ['title', 'excerpt', 'publishedAt', 'categories', 'featuredImage', 'canonicalUrl', 'draft']
-const PROJECT_KEYS = ['title', 'description', 'techStack', 'links', 'featured', 'status', 'completedAt', 'featuredImage', 'draft']
+const POST_KEYS = ['title', 'excerpt', 'publishedAt', 'categories', 'featuredImage', 'canonicalUrl', 'project', 'draft']
+const PROJECT_KEYS = ['title', 'description', 'techStack', 'links', 'featured', 'status', 'license', 'completedAt', 'featuredImage', 'demo', 'draft']
 const LINK_KEYS = ['live', 'github', 'other']
+const DEMO_KEYS = ['src', 'poster', 'alt']
+const PROJECT_STATUSES: ProjectStatus[] = ['active', 'maintained', 'archived']
 
 // Frontmatter typos fail the build instead of silently dropping a field.
 function fail(source: string, message: string): never {
@@ -83,13 +90,43 @@ function stringList(source: string, field: string, value: unknown): string[] {
   return value
 }
 
-function optionalImage(source: string, value: unknown): string | undefined {
-  if (value === undefined) return undefined
-  const image = requireString(source, 'featuredImage', value)
-  if (!image.startsWith('/') || !fs.existsSync(path.join(PUBLIC_DIR, image))) {
-    fail(source, `featuredImage ${image} is not a file under public/`)
+function publicFile(source: string, field: string, value: unknown): string {
+  const file = requireString(source, field, value)
+  if (!file.startsWith('/') || !fs.existsSync(path.join(PUBLIC_DIR, file))) {
+    fail(source, `${field} ${file} is not a file under public/`)
   }
-  return image
+  return file
+}
+
+function optionalImage(source: string, value: unknown): string | undefined {
+  return value === undefined ? undefined : publicFile(source, 'featuredImage', value)
+}
+
+function optionalStatus(source: string, value: unknown): ProjectStatus | undefined {
+  if (value === undefined) return undefined
+  if (!PROJECT_STATUSES.includes(value as ProjectStatus)) {
+    fail(source, `"status" must be one of ${PROJECT_STATUSES.join(', ')}`)
+  }
+  return value as ProjectStatus
+}
+
+function optionalDemo(source: string, value: unknown): Project['demo'] {
+  if (value === undefined) return undefined
+  if (typeof value !== 'object' || value === null) fail(source, '"demo" must be an object with src, poster and alt')
+  checkKeys(source, value, DEMO_KEYS)
+  const demo = value as Record<string, unknown>
+  return {
+    src: publicFile(source, 'demo.src', demo.src),
+    poster: publicFile(source, 'demo.poster', demo.poster),
+    alt: requireString(source, 'demo.alt', demo.alt),
+  }
+}
+
+function optionalProjectRef(source: string, value: unknown): string | undefined {
+  if (value === undefined) return undefined
+  const slug = requireString(source, 'project', value)
+  if (!allProjects().some((project) => project.slug === slug)) fail(source, `"project" ${slug} is not a project slug`)
+  return slug
 }
 
 function optionalCanonical(source: string, value: unknown): string | undefined {
@@ -132,6 +169,7 @@ function allPosts(): Post[] {
       categories: stringList(source, 'categories', data.categories),
       featuredImage: optionalImage(source, data.featuredImage),
       canonicalUrl: optionalCanonical(source, data.canonicalUrl),
+      project: optionalProjectRef(source, data.project),
       content,
     }))
     .sort((a, b) => byDateDesc(a.publishedAt, b.publishedAt))
@@ -140,7 +178,7 @@ function allPosts(): Post[] {
 
 function allProjects(): Project[] {
   projectsCache ??= readCollection('projects', PROJECT_KEYS)
-    .filter(({ data }) => !data.draft && data.status !== 'draft')
+    .filter(({ data }) => !data.draft)
     .map(({ source, slug, data, content }) => {
       const links: ProjectLinks = data.links ?? {}
       checkKeys(source, links, LINK_KEYS)
@@ -151,9 +189,11 @@ function allProjects(): Project[] {
         techStack: stringList(source, 'techStack', data.techStack),
         links,
         featured: Boolean(data.featured),
-        status: data.status,
+        status: optionalStatus(source, data.status),
+        license: data.license === undefined ? undefined : requireString(source, 'license', data.license),
         completedAt: requireDate(source, 'completedAt', data.completedAt),
         featuredImage: optionalImage(source, data.featuredImage),
+        demo: optionalDemo(source, data.demo),
         content,
       }
     })
@@ -167,6 +207,10 @@ export function getPosts(options?: { limit?: number }): Post[] {
 
 export function getPostBySlug(slug: string): Post | null {
   return allPosts().find((post) => post.slug === slug) ?? null
+}
+
+export function getPostsForProject(slug: string): Post[] {
+  return allPosts().filter((post) => post.project === slug)
 }
 
 export function getProjects(options?: { limit?: number; featured?: boolean }): Project[] {

@@ -4,7 +4,8 @@ description: "Sudo-free, cleanable /etc/hosts management for lab work, as a CLI 
 techStack: ["Python", "MCP", "Linux", "POSIX ACLs"]
 links: {"github": "https://github.com/sresarehumantoo/htb-hosts"}
 featured: false
-status: published
+status: maintained
+license: MIT
 completedAt: 2026-07-11
 featuredImage: /images/covers/htb-hosts.png
 ---

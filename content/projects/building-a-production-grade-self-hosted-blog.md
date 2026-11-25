@@ -4,7 +4,7 @@ description: "How this site was self-hosted for most of 2026: Next.js and Payloa
 techStack: ["Next.js 16", "Payload CMS", "PostgreSQL", "Docker", "Terraform", "Ansible", "Traefik", "GitLab CI", "Cloudflare"]
 links: {}
 featured: true
-status: published
+status: archived
 completedAt: 2026-02-04
 featuredImage: /images/covers/building-a-production-grade-self-hosted-blog.png
 ---

@@ -4,7 +4,8 @@ description: "A PSRP-native WinRM shell in Go for offensive Windows work: typed 
 techStack: ["Go", "PSRP", "WinRM", "Kerberos", "NTLM"]
 links: {"github": "https://github.com/sresarehumantoo/wsmancer"}
 featured: true
-status: published
+status: active
+license: LGPL-3.0
 completedAt: 2026-08-13
 featuredImage: /images/covers/wsmancer.png
 ---
