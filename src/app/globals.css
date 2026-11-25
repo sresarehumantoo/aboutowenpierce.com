@@ -212,14 +212,74 @@ img {
 }
 
 .logo-3d-container {
-  width: 40px;
-  height: 40px;
+  --logo-size: 40px;
+  /* One unit of the original Three.js scene: a 35deg FOV camera 6.5 units away frames 4.1 units. */
+  --u: calc(var(--logo-size) / 4.1);
+  position: relative;
+  width: var(--logo-size);
+  height: var(--logo-size);
+  perspective: calc(var(--u) * 6.5);
 }
 
-.logo-3d-placeholder {
-  background: var(--color-bg-secondary);
-  border-radius: 4px;
+.logo-cube {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-style: preserve-3d;
+  transform: rotateX(-30deg) rotateY(-45deg);
 }
+
+.logo-block {
+  position: absolute;
+  transform-style: preserve-3d;
+  transform: translate3d(
+    calc(var(--x) * 0.55 * var(--u)),
+    calc(var(--y) * -0.55 * var(--u)),
+    calc(var(--z) * 0.55 * var(--u))
+  );
+}
+
+/* Back faces stay visible on purpose: they fill the antialiased seams between front faces,
+   which otherwise let the background show through as hairlines. */
+.logo-face {
+  position: absolute;
+  top: calc(var(--u) * -0.375);
+  left: calc(var(--u) * -0.375);
+  width: calc(var(--u) * 0.75);
+  height: calc(var(--u) * 0.75);
+  background: var(--side);
+}
+
+.logo-face-front { transform: translateZ(calc(var(--u) * 0.375)); }
+.logo-face-back { transform: rotateY(180deg) translateZ(calc(var(--u) * 0.375)); background: var(--shade); }
+.logo-face-right { transform: rotateY(90deg) translateZ(calc(var(--u) * 0.375)); }
+.logo-face-left { transform: rotateY(-90deg) translateZ(calc(var(--u) * 0.375)); background: var(--shade); }
+.logo-face-top { transform: rotateX(90deg) translateZ(calc(var(--u) * 0.375)); background: var(--top); }
+.logo-face-bottom { transform: rotateX(-90deg) translateZ(calc(var(--u) * 0.375)); background: var(--shade); }
+
+/* Face colors as the WebGL renderer drew them (ACES filmic tone mapping of the original palette). */
+.logo-tone-0 { --top: #dddedf; --side: #d9dbde; --shade: #c9cbcf; }
+.logo-tone-1 { --top: #d8dadc; --side: #cfd3d8; --shade: #bbc1c7; }
+.logo-tone-2 { --top: #e0e1e1; --side: #dedfe1; --shade: #d0d1d3; }
+.logo-tone-3 { --top: #b9c5e0; --side: #4c90df; --shade: #2c76d0; }
+.logo-tone-4 { --top: #b5bddd; --side: #2667dc; --shade: #0050ca; }
+.logo-tone-5 { --top: #c0cee0; --side: #7eb4e0; --shade: #5f9bd2; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .logo-tone-0 { --top: #b9b9ba; --side: #4c4c58; --shade: #393943; }
+  :root:not([data-theme="light"]) .logo-tone-1 { --top: #c0c0c2; --side: #797984; --shade: #60606a; }
+  :root:not([data-theme="light"]) .logo-tone-2 { --top: #b5b5b6; --side: #32323a; --shade: #24242b; }
+  :root:not([data-theme="light"]) .logo-tone-3 { --top: #c4b5de; --side: #8b31dd; --shade: #6c21cc; }
+  :root:not([data-theme="light"]) .logo-tone-4 { --top: #c0b3da; --side: #7216d4; --shade: #550bc0; }
+  :root:not([data-theme="light"]) .logo-tone-5 { --top: #c8bce0; --side: #9f61e0; --shade: #814ad0; }
+}
+
+:root[data-theme="dark"] .logo-tone-0 { --top: #b9b9ba; --side: #4c4c58; --shade: #393943; }
+:root[data-theme="dark"] .logo-tone-1 { --top: #c0c0c2; --side: #797984; --shade: #60606a; }
+:root[data-theme="dark"] .logo-tone-2 { --top: #b5b5b6; --side: #32323a; --shade: #24242b; }
+:root[data-theme="dark"] .logo-tone-3 { --top: #c4b5de; --side: #8b31dd; --shade: #6c21cc; }
+:root[data-theme="dark"] .logo-tone-4 { --top: #c0b3da; --side: #7216d4; --shade: #550bc0; }
+:root[data-theme="dark"] .logo-tone-5 { --top: #c8bce0; --side: #9f61e0; --shade: #814ad0; }
 
 .nav {
   display: flex;
@@ -266,8 +326,7 @@ img {
 }
 
 .nav .nav-logo .logo-3d-container {
-  width: 36px;
-  height: 36px;
+  --logo-size: 36px;
 }
 
 .nav-logo-label {
@@ -1280,8 +1339,7 @@ a.card {
   }
 
   .nav .nav-logo .logo-3d-container {
-    width: 32px;
-    height: 32px;
+    --logo-size: 32px;
   }
 
   .section-header {
@@ -1350,8 +1408,7 @@ a.card {
   }
 
   .nav-mobile-item .logo-3d-container {
-    width: 24px;
-    height: 24px;
+    --logo-size: 24px;
   }
 
   @media (hover: hover) {

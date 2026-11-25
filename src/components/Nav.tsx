@@ -2,16 +2,9 @@
 
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { useEffect, useRef, useState, useCallback, useSyncExternalStore, Suspense } from 'react'
-import dynamic from 'next/dynamic'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { PenIcon, FolderIcon, UserIcon, EmailIcon, HomeIcon } from './Icons'
-
-const Logo3D = dynamic(() => import('./Logo3D').then(mod => ({ default: mod.Logo3D })), {
-  ssr: false,
-  loading: () => (
-    <div className="logo-3d-container logo-3d-placeholder" />
-  ),
-})
+import { Logo3D } from './Logo3D'
 
 export const navLinks = [
   { href: '/', label: 'Home', icon: HomeIcon, isLogo: true },
@@ -21,28 +14,12 @@ export const navLinks = [
   { href: '/about', label: 'About', icon: UserIcon },
 ]
 
-// Must match the breakpoint in globals.css that swaps .nav-desktop for .nav-mobile.
-const MOBILE_QUERY = '(max-width: 600px)'
-
-function subscribeMobile(onChange: () => void) {
-  const mq = window.matchMedia(MOBILE_QUERY)
-  mq.addEventListener('change', onChange)
-  return () => mq.removeEventListener('change', onChange)
-}
-
 export function Nav() {
   const pathname = usePathname()
   const router = useRouter()
   const navRef = useRef<HTMLElement>(null)
   const indicatorRef = useRef<HTMLDivElement>(null)
   const [isSpinning, setIsSpinning] = useState(false)
-  const [isDark, setIsDark] = useState(false)
-  // Only the visible nav gets a WebGL canvas; the hidden one would hold a second context.
-  const isMobile = useSyncExternalStore(
-    subscribeMobile,
-    () => window.matchMedia(MOBILE_QUERY).matches,
-    () => null,
-  )
 
   const isActive = (href: string) => {
     if (href === '/') {
@@ -80,38 +57,6 @@ export function Nav() {
   }
 
   const activeIndex = navLinks.findIndex((link) => isActive(link.href))
-
-  // Theme detection for Logo3D
-  useEffect(() => {
-    const checkTheme = () => {
-      const htmlElement = document.documentElement
-      const dataTheme = htmlElement.getAttribute('data-theme')
-
-      if (dataTheme === 'dark') {
-        setIsDark(true)
-      } else if (dataTheme === 'light') {
-        setIsDark(false)
-      } else {
-        setIsDark(window.matchMedia('(prefers-color-scheme: dark)').matches)
-      }
-    }
-
-    checkTheme()
-
-    const observer = new MutationObserver(checkTheme)
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['data-theme']
-    })
-
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-    mediaQuery.addEventListener('change', checkTheme)
-
-    return () => {
-      observer.disconnect()
-      mediaQuery.removeEventListener('change', checkTheme)
-    }
-  }, [])
 
   useEffect(() => {
     const nav = navRef.current
@@ -165,17 +110,7 @@ export function Nav() {
               aria-current={isActive(link.href) ? 'page' : undefined}
               onClick={(e) => { handleLogoClick(); handleNavClick(e, link.href); }}
             >
-              <Suspense fallback={<div className="logo-3d-container logo-3d-placeholder" />}>
-                {isMobile === false ? (
-                  <Logo3D
-                    isDark={isDark}
-                    isSpinning={isSpinning}
-                    onSpinComplete={handleSpinComplete}
-                  />
-                ) : (
-                  <div className="logo-3d-container logo-3d-placeholder" />
-                )}
-              </Suspense>
+              <Logo3D isSpinning={isSpinning} onSpinComplete={handleSpinComplete} />
               <span className="nav-logo-label">{link.label}</span>
             </Link>
           ) : (
@@ -208,17 +143,7 @@ export function Nav() {
             >
               {link.isLogo ? (
                 <>
-                  <Suspense fallback={<div className="logo-3d-container logo-3d-placeholder" />}>
-                    {isMobile ? (
-                      <Logo3D
-                        isDark={isDark}
-                        isSpinning={isSpinning}
-                        onSpinComplete={handleSpinComplete}
-                      />
-                    ) : (
-                      <div className="logo-3d-container logo-3d-placeholder" />
-                    )}
-                  </Suspense>
+                  <Logo3D isSpinning={isSpinning} onSpinComplete={handleSpinComplete} />
                   <span className="nav-mobile-label">{link.label}</span>
                 </>
               ) : (
