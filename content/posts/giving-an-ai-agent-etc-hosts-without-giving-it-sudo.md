@@ -3,6 +3,7 @@ title: "Giving an AI Agent /etc/hosts Without Giving It Sudo"
 excerpt: "htb-hosts is a small CLI and MCP server that lets me and my coding agents manage lab host entries without sudo. The interesting parts were the ones that looked trivial: an ACL that a rename would silently destroy, an IPv6 scope id that could inject lines, and tab completion that could run code."
 publishedAt: 2026-11-24
 categories: ["Security", "AI Agents", "Linux"]
+project: htb-hosts
 featuredImage: /images/covers/giving-an-ai-agent-etc-hosts-without-giving-it-sudo.png
 draft: false
 ---
