@@ -4,12 +4,14 @@ import { pageMetadata } from '@/lib/site'
 
 export const metadata = pageMetadata({
   title: 'Projects',
-  description: 'A showcase of my work and side projects.',
+  description: 'Security tooling and infrastructure I build and maintain.',
   path: '/projects/',
 })
 
 export default function ProjectsPage() {
   const projects = getProjects()
+  const featured = projects.filter((project) => project.featured)
+  const rest = projects.filter((project) => !project.featured)
 
   return (
     <>
@@ -20,13 +22,19 @@ export default function ProjectsPage() {
       }}>
         <div className="container">
           <h1 style={{ color: '#fff' }}>Projects</h1>
-          <p style={{ color: 'rgba(255, 255, 255, 0.9)' }}>A showcase of my work and side projects.</p>
+          <p style={{ color: 'rgba(255, 255, 255, 0.9)' }}>Security tooling and infrastructure I build and maintain.</p>
         </div>
       </section>
 
       <section className="section">
         <div className="container">
-          <ProjectCards projects={projects} columns={2} />
+          <ProjectCards projects={featured} wide />
+          {rest.length > 0 && (
+            <>
+              <h2 className="section-title projects-more">More projects</h2>
+              <ProjectCards projects={rest} columns={3} />
+            </>
+          )}
         </div>
       </section>
     </>

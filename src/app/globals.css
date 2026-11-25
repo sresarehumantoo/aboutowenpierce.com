@@ -2106,3 +2106,50 @@ a.card {
 .post-project a {
   font-weight: 600;
 }
+
+/* Project cards */
+.card-image {
+  position: relative;
+}
+
+.card-status {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.card-list-wide {
+  display: grid;
+  gap: 2rem;
+}
+
+.projects-more {
+  margin: 3.5rem 0 1.5rem;
+}
+
+@media (min-width: 768px) {
+  a.card-wide {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .card-wide .card-image {
+    height: 100%;
+    aspect-ratio: auto;
+    min-height: 260px;
+  }
+
+  .card-wide .card-content {
+    padding: 2rem 2.25rem;
+  }
+
+  .card-wide .card-title {
+    font-size: 1.6rem;
+  }
+
+  .card-wide .card-excerpt {
+    font-size: 1rem;
+  }
+}
