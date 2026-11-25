@@ -91,7 +91,7 @@ export function BlogPostJsonLd({
     url: `https://aboutowenpierce.com/blog/${slug}`,
     datePublished: publishedAt,
     dateModified: updatedAt || publishedAt,
-    image: image || 'https://aboutowenpierce.com/images/profile.jpg',
+    image: image ? new URL(image, 'https://aboutowenpierce.com').href : 'https://aboutowenpierce.com/images/profile.jpg',
     author: {
       '@type': 'Person',
       name: 'Owen Pierce',
