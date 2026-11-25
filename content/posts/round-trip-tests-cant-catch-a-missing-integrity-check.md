@@ -3,6 +3,7 @@ title: "Round-Trip Tests Can't Catch a Missing Integrity Check"
 excerpt: "While building WinRM message sealing for wsmancer, my Kerberos RC4 path decrypted tampered ciphertext without complaint and every test passed. Here's why, and the mutation testing and live differentials I now use to prove a crypto check actually runs."
 publishedAt: 2026-11-24
 categories: ["Security", "Go", "Testing"]
+project: wsmancer
 featuredImage: /images/covers/round-trip-tests-cant-catch-a-missing-integrity-check.png
 draft: false
 ---
