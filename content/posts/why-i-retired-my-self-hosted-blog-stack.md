@@ -3,6 +3,7 @@ title: "Why I Retired My Self-Hosted Blog Stack"
 excerpt: "I ran my blog on Next.js, Payload CMS and PostgreSQL across hardened VMs, with Terraform, Ansible, CI and a preprod environment. It was a great lab and a bad way to publish four posts. What it cost, and how I moved it to a static site."
 publishedAt: 2026-11-24
 categories: ["DevOps", "Architecture", "Lessons Learned"]
+project: homelab-as-code
 featuredImage: /images/covers/why-i-retired-my-self-hosted-blog-stack.png
 draft: false
 ---

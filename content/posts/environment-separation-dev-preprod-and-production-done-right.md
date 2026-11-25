@@ -3,6 +3,7 @@ title: "Environment Separation - Dev, Preprod, and Production Done Right"
 excerpt: "Why you need more than just \"local\" and \"production,\" and how to build environment separation that actually helps instead of becoming a maintenance burden."
 publishedAt: 2026-02-04
 categories: ["DevOps", "Best Practices", "Infrastructure"]
+project: homelab-as-code
 featuredImage: /images/covers/environment-separation-dev-preprod-and-production-done-right.png
 draft: false
 ---

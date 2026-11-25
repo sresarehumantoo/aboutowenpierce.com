@@ -3,6 +3,7 @@ title: "Terraform + Ansible - The Infrastructure as Code Power Couple"
 excerpt: "Why use two tools when you could use one? Because they solve different problems. Here's how Terraform and Ansible complement each other for complete infrastructure automation."
 publishedAt: 2026-03-22
 categories: ["Infrastructure", "DevOps", "Automation"]
+project: homelab-as-code
 featuredImage: /images/covers/terraform-ansible-the-infrastructure-as-code-power-couple.png
 draft: false
 ---

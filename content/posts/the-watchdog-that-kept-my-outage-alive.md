@@ -3,6 +3,7 @@ title: "The Watchdog That Kept My Outage Alive"
 excerpt: "A Vault Agent token that died every time my laptop slept, the healthcheck I wrote to fix it, and how that healthcheck held a 22-hour lockout open until I taught it when to stop."
 publishedAt: 2026-11-24
 categories: ["Vault", "Reliability", "Incident Review"]
+project: homelab-as-code
 featuredImage: /images/covers/the-watchdog-that-kept-my-outage-alive.png
 draft: false
 ---

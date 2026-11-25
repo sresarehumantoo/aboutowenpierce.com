@@ -3,6 +3,7 @@ title: "Defense in Depth - Securing a Self-Hosted Application"
 excerpt: "Security isn't a checkbox; it's a strategy. Learn how layered defenses protect a self-hosted web application from the edge to the database."
 publishedAt: 2026-02-04
 categories: ["Security", "Infrastructure", "DevOps"]
+project: homelab-as-code
 featuredImage: /images/covers/defense-in-depth-securing-a-self-hosted-application.png
 draft: false
 ---

@@ -3,6 +3,7 @@ title: "WAN Failover Without Moving the Cable"
 excerpt: "My home edge router was highly available on paper, except for the one cable that mattered. How I made the WAN follow VRRP with one cloned MAC and an isolated switch segment, and the ISP outage that showed me which failures should never trigger a failover."
 publishedAt: 2026-11-24
 categories: ["Networking", "VyOS", "High Availability"]
+project: homelab-as-code
 featuredImage: /images/covers/wan-failover-without-moving-the-cable.png
 draft: false
 ---

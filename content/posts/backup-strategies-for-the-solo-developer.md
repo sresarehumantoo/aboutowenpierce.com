@@ -3,6 +3,7 @@ title: "Backup Strategies for the Solo Developer"
 excerpt: "Your side project's data matters. Here's a practical guide to backups that actually work: automated, tested, and ready for the day things go wrong."
 publishedAt: 2026-02-04
 categories: ["Operations", "DevOps", "Best Practices"]
+project: homelab-as-code
 featuredImage: /images/covers/backup-strategies-for-the-solo-developer.png
 draft: false
 ---

@@ -1,12 +1,11 @@
 ---
 title: "Building a Production-Grade Self-Hosted Blog"
-description: "How this site was self-hosted for most of 2026: Next.js and Payload CMS on Proxmox VMs, provisioned with Terraform, configured with Ansible, and deployed through GitLab CI."
-techStack: ["Next.js 16", "Payload CMS", "PostgreSQL", "Docker", "Terraform", "Ansible", "Traefik", "GitLab CI", "Cloudflare"]
-links: {}
-featured: true
-status: archived
-completedAt: 2026-02-04
+excerpt: "How this site was self-hosted for most of 2026: Next.js and Payload CMS on Proxmox VMs, provisioned with Terraform, configured with Ansible, and deployed through GitLab CI."
+publishedAt: 2026-02-04
+categories: ["Infrastructure", "Security", "DevOps"]
+project: homelab-as-code
 featuredImage: /images/covers/building-a-production-grade-self-hosted-blog.png
+draft: false
 ---
 > **Update, November 2026:** this site now runs as a static Next.js export on GitHub Pages, with posts kept as Markdown in the repository. What follows describes the self-hosted setup it ran on before that.
 
@@ -114,6 +113,7 @@ More importantly, it was a learning platform. Every component represents a decis
 **Give backups their own credentials**: Separate storage is only half of backup isolation. The jobs that write backups should use credentials nothing else holds, ideally with object locking, so a compromised application can't reach them.
 
 **Personal projects deserve production practices**: The skills transfer. The reliability compounds. The time investment pays back.
+
 
 ---
 
