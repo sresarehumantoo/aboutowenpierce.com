@@ -1986,9 +1986,17 @@ a.card {
   text-align: center;
 }
 
-.markdown-figure img {
+.markdown-figure img,
+.markdown-figure video {
   max-width: 100%;
   border-radius: 0.5rem;
+}
+
+.markdown-figure video {
+  display: block;
+  margin: 0 auto;
+  max-height: 80vh;
+  background: #000;
 }
 
 .markdown-figure figcaption {
@@ -1996,6 +2004,18 @@ a.card {
   font-size: 0.9rem;
   color: var(--color-text-secondary);
   font-style: italic;
+}
+
+.markdown-content {
+  counter-reset: figure;
+}
+
+.markdown-figure.numbered figcaption::before {
+  counter-increment: figure;
+  content: 'Figure ' counter(figure) ': ';
+  font-style: normal;
+  font-weight: 600;
+  color: var(--color-text);
 }
 
 /* Responsive - Large screens */

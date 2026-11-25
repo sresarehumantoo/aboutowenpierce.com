@@ -137,6 +137,13 @@ function optionalCanonical(source: string, value: unknown): string | undefined {
   return url
 }
 
+function checkBodyMedia(source: string, content: string) {
+  const prose = content.replace(/^```[\s\S]*?^```/gm, '')
+  for (const [, src] of prose.matchAll(/!\[[^\]]*\]\(\s*(\/[^\s)]+)/g)) {
+    publicFile(source, 'image', src)
+  }
+}
+
 function readCollection(dir: string, allowedKeys: string[]) {
   const fullDir = path.join(CONTENT_DIR, dir)
   return fs
@@ -148,6 +155,7 @@ function readCollection(dir: string, allowedKeys: string[]) {
       if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) fail(source, 'file name must be a lowercase-hyphenated slug')
       const { data, content } = matter(fs.readFileSync(path.join(fullDir, file), 'utf8'))
       checkKeys(source, data, allowedKeys)
+      checkBodyMedia(source, content)
       return { source, slug, data, content }
     })
 }

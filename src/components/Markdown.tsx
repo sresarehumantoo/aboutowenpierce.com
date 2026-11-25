@@ -81,17 +81,26 @@ export function Markdown({ content }: MarkdownProps) {
         </div>
       )
     },
-    img({ src, alt, ...props }) {
-      // Sanitize src to prevent javascript: XSS
-      // src can be string or Blob, only validate strings
+    // A paragraph holding only an image would wrap the <figure> in a <p>, which is invalid HTML.
+    p({ node, children }) {
+      const only = node?.children.length === 1 ? node.children[0] : undefined
+      if (only?.type === 'element' && only.tagName === 'img') return <>{children}</>
+      return <p>{children}</p>
+    },
+    // ![alt](src "caption"): alt is for screen readers, the optional title is the visible caption.
+    img({ src, alt, title }) {
       const srcString = typeof src === 'string' ? src : ''
       const sanitizedSrc = srcString && isSafeUrl(srcString) ? srcString : ''
       if (!sanitizedSrc) return null
       return (
-        <figure className="markdown-figure">
-          {/* eslint-disable-next-line @next/next/no-img-element -- dynamic markdown images */}
-          <img src={sanitizedSrc} alt={alt || ''} {...props} />
-          {alt && <figcaption>{alt}</figcaption>}
+        <figure className={title ? 'markdown-figure numbered' : 'markdown-figure'}>
+          {/\.(mp4|webm)$/i.test(sanitizedSrc) ? (
+            <video src={sanitizedSrc} aria-label={alt || undefined} controls preload="metadata" playsInline />
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element -- dynamic markdown images
+            <img src={sanitizedSrc} alt={alt || ''} loading="lazy" />
+          )}
+          {title && <figcaption>{title}</figcaption>}
         </figure>
       )
     },

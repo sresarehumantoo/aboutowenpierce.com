@@ -9,7 +9,9 @@ npm run lint
 npm run build   # static site in out/
 ```
 
-Content lives in `content/`: posts and projects are Markdown with frontmatter, and `experience.json` drives the About page. Frontmatter is validated at build time, so an unknown key, a bad date, or a missing image fails the build. Cover art is generated with `scripts/make-cover.mjs`. Pushing to `main` builds and deploys through `.github/workflows/pages.yml`.
+Content lives in `content/`: posts and projects are Markdown with frontmatter, and `experience.json` drives the About page. Frontmatter is validated at build time, so an unknown key, a bad date, or a missing image fails the build. Cover art is generated with `scripts/make-cover.mjs`.
+
+In a post body, `![alt text](/images/... "Caption")` renders a figure: the alt text is for screen readers, and the optional caption is shown and numbered ("Figure 1: ..."). A `.mp4` or `.webm` path renders a video player the same way. Local image and video paths are checked at build time. Pushing to `main` builds and deploys through `.github/workflows/pages.yml`.
 
 ## License
 
