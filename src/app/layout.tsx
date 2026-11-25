@@ -7,7 +7,7 @@ import { SearchBar } from '@/components/SearchBar'
 import { StickyHeader } from '@/components/StickyHeader'
 import { SwipeNav } from '@/components/SwipeNav'
 import { GitHubIcon, LinkedInIcon, MediumIcon, EmailIcon, PenIcon, FolderIcon, UserIcon, ShieldIcon } from '@/components/Icons'
-import { DEFAULT_IMAGE, SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from '@/lib/site'
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL, SOCIAL_IMAGE } from '@/lib/site'
 import './globals.css'
 
 const inter = Inter({
@@ -42,13 +42,13 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    images: [DEFAULT_IMAGE],
+    images: [SOCIAL_IMAGE],
   },
   twitter: {
     card: 'summary_large_image',
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    images: [DEFAULT_IMAGE],
+    images: [SOCIAL_IMAGE],
   },
 }
 

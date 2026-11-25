@@ -10,6 +10,7 @@ export const SITE_DESCRIPTION =
   'Security Engineer at Ally. Detection and response automation, least-privilege infrastructure for AI agents, and writing about security and home lab projects.'
 
 export const DEFAULT_IMAGE = { url: '/images/profile.jpg', width: 900, height: 1200, alt: SITE_TITLE }
+export const SOCIAL_IMAGE = { url: '/images/og-image.jpg', width: 1200, height: 630, alt: SITE_TITLE }
 
 type PageMetadata = {
   title: string
@@ -22,7 +23,7 @@ type PageMetadata = {
 // A page's openGraph replaces the layout's wholesale rather than merging, so
 // every page gets the full set here, with its own URL as og:url and canonical.
 export function pageMetadata({ title, description, path, image, publishedTime }: PageMetadata): Metadata {
-  const images = image ? [image] : [DEFAULT_IMAGE]
+  const images = image ? [image] : [SOCIAL_IMAGE]
   const shared = { title, description, url: path, siteName: SITE_NAME, locale: 'en_US', images }
   return {
     title,
