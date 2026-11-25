@@ -1,11 +1,17 @@
-'use client'
-
-import React from 'react'
+import type { ReactElement } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import type { Components } from 'react-markdown'
+
+// oneDark's comment gray (#5c6370) is 2.3:1 on its background; this is 5.5:1.
+const codeStyle = {
+  ...oneDark,
+  comment: { ...oneDark.comment, color: '#9ca3af' },
+  prolog: { ...oneDark.prolog, color: '#9ca3af' },
+  cdata: { ...oneDark.cdata, color: '#9ca3af' },
+}
 
 interface MarkdownProps {
   content: string
@@ -26,27 +32,24 @@ export function Markdown({ content }: MarkdownProps) {
   if (!content) return null
 
   const components: Components = {
-    code({ className, children, ...props }) {
-      const match = /language-(\w+)/.exec(className || '')
-      const isInline = !match && !className
-
-      if (isInline) {
-        return (
-          <code className="inline-code" {...props}>
-            {children}
-          </code>
-        )
-      }
-
+    // Fenced blocks arrive as <pre><code>; a fence without a language has no className,
+    // so the block/inline decision has to be made here rather than in `code`.
+    pre({ children }) {
+      const code = children as ReactElement<{ className?: string; children?: unknown }>
+      const match = /language-(\w+)/.exec(code.props.className || '')
       return (
         <SyntaxHighlighter
-          style={oneDark}
+          style={codeStyle}
           language={match ? match[1] : 'text'}
-          PreTag="div"
+          customStyle={{ margin: '1.5rem 0', borderRadius: '0.5rem' }}
+          tabIndex={0}
         >
-          {String(children).replace(/\n$/, '')}
+          {String(code.props.children).replace(/\n$/, '')}
         </SyntaxHighlighter>
       )
+    },
+    code({ children }) {
+      return <code className="inline-code">{children}</code>
     },
     a({ href, children, ...props }) {
       // Sanitize href to prevent javascript: XSS
@@ -65,7 +68,7 @@ export function Markdown({ content }: MarkdownProps) {
     },
     table({ children, ...props }) {
       return (
-        <div className="table-wrapper">
+        <div className="table-wrapper" tabIndex={0}>
           <table {...props}>{children}</table>
         </div>
       )
