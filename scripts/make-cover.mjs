@@ -174,8 +174,11 @@ const motifs = {
           const layer = [0, 1, 2][k]
           const h = heights[layer]
           let y
+          let tries = 0
           do y = n(cy + rng.range(-0.3, 0.0) * h)
-          while ([...used].some((u) => Math.abs(u - y) < 34))
+          while ([...used].some((u) => Math.abs(u - y) < 34) && ++tries < 200)
+          // A short layer can't fit every probe 34px apart; skip the extra one.
+          if (tries >= 200) continue
           used.add(y)
           const stopX = CX + side * (h * 0.4 + 8)
           const startX = side < 0 ? rng.range(110, 170) : rng.range(1030, 1090)
